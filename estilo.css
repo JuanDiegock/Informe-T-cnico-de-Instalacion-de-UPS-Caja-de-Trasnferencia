@@ -469,15 +469,6 @@ h1{
 }
 @media(max-width: 768px){
 
-    .grid-datos {
-    grid-template-columns: 1fr;
-}
-
-.campo {
-    grid-template-columns: 130px 1fr;
-    border-right: none;
-}
-
 .campo label {
     font-size: 13px;
 }
@@ -610,7 +601,15 @@ h1{
     overflow-wrap:break-word;
 }
 
+    body{
+        min-width:1180px;
+    }
 
+    .contenedor{
+        width:1180px;
+        max-width:1180px;
+    }
 }
+
 
  
