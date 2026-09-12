@@ -1,4 +1,3 @@
-}
 let contador =
 localStorage.getItem(
     "contadorMantenimientoUPS"
