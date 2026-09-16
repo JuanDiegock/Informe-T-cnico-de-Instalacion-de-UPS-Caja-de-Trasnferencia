@@ -363,6 +363,47 @@ function configurarClientes(){
 }
 configurarClientes();
 generarReporteFotografico();
+
+document.querySelectorAll(".equipo-card").forEach(equipo => {
+
+    const fechaInput =
+        equipo.querySelector(".fecha-input");
+
+    const fechaTexto =
+        equipo.querySelector(".fecha-trabajos");
+
+    function actualizarFechaTrabajos(){
+
+        if(!fechaInput.value){
+            fechaTexto.textContent = "__________";
+            return;
+        }
+
+        const partes = fechaInput.value.split("-");
+
+        const año = partes[0];
+        const mes = parseInt(partes[1]) - 1;
+        const dia = partes[2];
+
+        const fecha = new Date(año, mes, dia);
+
+        const nombreMes =
+            fecha.toLocaleString("es-PE", {
+                month: "long"
+            });
+
+        fechaTexto.textContent =
+            `${dia} de ${nombreMes} de ${año}`;
+    }
+
+    fechaInput.addEventListener(
+        "change",
+        actualizarFechaTrabajos
+    );
+
+    actualizarFechaTrabajos();
+
+});
 });
 
 function crearDatosGenerales(numero){
@@ -434,21 +475,10 @@ function crearDatosGenerales(numero){
 
                     <label>Ubicación</label>
 
-                    <select class="ubicacion-input">
-
-                        <option value="">
-                            Seleccione una ubicación
-                        </option>
-
-                        <option value="Ubicacion 1">
-                            Ubicacion 1
-                        </option>
-
-                        <option value="Ubicacion 2">
-                            Ubicacion 2
-                        </option>
-
-                    </select>
+                    <input
+                        type="text"
+                        class="ubicacion-input"
+                        placeholder="Ingrese la ubicación">
 
                 </div>
 
@@ -479,15 +509,15 @@ function crearDatosGenerales(numero){
                         </option>
 
                         <option value="Servicio 1">
-                            Servicio 1
+                            Caja de Transferencia
                         </option>
 
                         <option value="Servicio 2">
-                            Servicio 2
+                            Sistemas
                         </option>
 
                         <option value="Servicio 3">
-                            Servicio 3
+                            Servidores
                         </option>
 
                     </select>
@@ -530,8 +560,8 @@ function crearDatosGenerales(numero){
                     I. PRESENTACIÓN
                 </h2>
 
-                <textarea>
-En el presente informe se detalla el servicio de instalación de un sistema de alimentación ininterrumpida (UPS) y una caja de transferencia.
+                <textarea readonly>
+•En el presente informe se detalla el servicio de instalación de un sistema de alimentación ininterrumpida (UPS) y una caja de transferencia.
                 </textarea>
 
             </div>
@@ -908,206 +938,120 @@ En el presente informe se detalla el servicio de instalación de un sistema de a
                     III. ANTECEDENTES
                 </h2>
 
-                <textarea>
-El cliente solicitó la ejecución del servicio de instalación de un sistema de alimentación ininterrumpida (UPS) y la instalación de una caja de transferencia, con la finalidad de proporcionar alimentación eléctrica estabilizada y respaldo a las cargas críticas correspondientes.
-                </textarea>
+<textarea readonly >
+• El cliente solicitó la ejecución del servicio de instalación de un sistema de alimentación ininterrumpida (UPS) y la instalación de una caja de transferencia, con la finalidad de proporcionar alimentación eléctrica estabilizada y respaldo a las cargas críticas correspondientes a la línea de cajas.
+
+• El servicio comprendió el traslado y ubicación de los equipos en el área destinada, instalación física del UPS, instalación y fijación de la caja de transferencia, ejecución de los conexionados eléctricos correspondientes, conexión al sistema de puesta a tierra, identificación de los circuitos de alimentación y salida, configuración inicial del UPS, puesta en marcha y ejecución de las pruebas funcionales.
+
+• La intervención fue realizada considerando las condiciones existentes de la instalación eléctrica y coordinando previamente con el personal responsable del establecimiento, a fin de ejecutar los trabajos de manera segura y controlada.
+</textarea>
 
             </div>
 
 
-            <!-- =========================
-                 IV. TRABAJOS REALIZADOS
-            ========================== -->
+<!-- =========================
+     IV. TRABAJOS REALIZADOS
+========================== -->
+
+<div class="actividades-box">
+
+    <h2 class="seccion-titulo">
+        IV. TRABAJOS REALIZADOS
+    </h2>
+
+    <p>
+        El día <span class="fecha-trabajos">__________</span>, el personal técnico de INFRASOL S.A.C. ingresó a las instalaciones de Plaza Vea para ejecutar el servicio de instalación del nuevo sistema UPS y caja de transferencia. Antes de iniciar los trabajos, se verificaron las condiciones de seguridad del área y se coordinó con el personal de tienda el procedimiento para realizar la intervención sin afectar la operación.
+    </p>
+
+    <p style="margin-top:25px;">
+        <strong>ACTIVIDADES EJECUTADAS:</strong>
+    </p>
+
+    <p style="margin-top:25px;">
+        <strong>Instalación física del UPS</strong>
+    </p>
+
+    <ul>
+        <li>
+            <strong>Ubicación:</strong> Colocamos el UPS en un lugar ventilado y de fácil acceso.
+        </li>
+
+        <li>
+            <strong>Conexión a Tierra:</strong> Conectamos el UPS a una toma de tierra adecuada para protección.
+        </li>
+
+        <li>
+            <strong>Conexión Eléctrica:</strong>
+        </li>
+    </ul>
+
+    <ul style="margin-left:40px;">
+        <li>
+            <strong><em>Entrada:</em></strong> Conectamos a la salida del transformador (baja tensión).
+        </li>
+
+        <li>
+            <strong><em>Salida:</em></strong> conectamos al tablero eléctrico de distribución.
+        </li>
+    </ul>
+
+    <ul>
+        <li>
+            Configuración inicial y puesta en marcha del equipo.
+        </li>
+
+        <li>
+            Ejecución de pruebas funcionales, verificando parámetros de entrada, salida, frecuencia, autonomía y correcto funcionamiento del sistema.
+        </li>
+
+        <li>
+            Monitoreo del equipo durante la operación para confirmar la estabilidad del suministro eléctrico.
+        </li>
+    </ul>
+
+    <p style="margin-top:25px;">
+        <strong>Instalación de la caja de transferencia</strong>
+    </p>
+
+    <ul>
+        <li>
+            Ubicación de la caja de transferencia en el punto definido para la instalación.
+        </li>
+
+        <li>
+            Fijación mecánica de la caja.
+        </li>
+
+        <li>
+            Identificación de los circuitos de alimentación.
+        </li>
+
+        <li>
+            Identificación de la alimentación proveniente del UPS.
+        </li>
+
+        <li>
+            Identificación de la alimentación de bypass.
+        </li>
+
+        <li>
+            Identificación de la salida hacia las cargas críticas.
+        </li>
+
+        <li>
+            Conexionado de los conductores correspondientes.
+        </li>
+
+        <li>
+            Verificación del ajuste de las conexiones eléctricas.
+        </li>
+
+        <li>
+            Ordenamiento y aseguramiento del cableado.
+        </li>
+    </ul>
 
-            <div class="actividades-box">
-
-                <h2 class="seccion-titulo">
-                    IV. TRABAJOS REALIZADOS
-                </h2>
-
-                <p style="margin-bottom:15px;">
-
-                    Durante el servicio de instalación del sistema UPS y caja de transferencia se realizaron las siguientes actividades:
-
-                </p>
-
-
-                <div class="checklist-actividades">
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_1">
-
-                        <label for="trabajo${numero}_1">
-                            Instalación física del UPS.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_2">
-
-                        <label for="trabajo${numero}_2">
-                            Ubicación del UPS en un lugar ventilado y de fácil acceso.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_3">
-
-                        <label for="trabajo${numero}_3">
-                            Conexión del UPS al sistema de puesta a tierra.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_4">
-
-                        <label for="trabajo${numero}_4">
-                            Conexionado eléctrico de entrada y salida del UPS.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_5">
-
-                        <label for="trabajo${numero}_5">
-                            Configuración inicial y puesta en marcha del UPS.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_6">
-
-                        <label for="trabajo${numero}_6">
-                            Instalación y fijación de la caja de transferencia.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_7">
-
-                        <label for="trabajo${numero}_7">
-                            Identificación de los circuitos de alimentación.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_8">
-
-                        <label for="trabajo${numero}_8">
-                            Identificación de la alimentación proveniente del UPS.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_9">
-
-                        <label for="trabajo${numero}_9">
-                            Identificación de la alimentación de bypass.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_10">
-
-                        <label for="trabajo${numero}_10">
-                            Identificación de la salida hacia las cargas críticas.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_11">
-
-                        <label for="trabajo${numero}_11">
-                            Conexionado y ajuste de los conductores correspondientes.
-                        </label>
-
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="trabajo${numero}_12">
-
-                        <label for="trabajo${numero}_12">
-                            Ordenamiento y aseguramiento del cableado.
-                        </label>
-
-                    </div>
-
-                </div>
-
-
-                <div style="margin-top:20px;">
-
-                    <label>
-                        <strong>Observaciones adicionales</strong>
-                    </label>
-
-                    <textarea
-                        placeholder="Ingrese observaciones adicionales..."
-                        rows="5"></textarea>
-
-                </div>
-
-            </div>
-
-
+</div>
             <!-- =========================
                  V. MEDICIONES ELÉCTRICAS
             ========================== -->
@@ -1641,9 +1585,9 @@ El cliente solicitó la ejecución del servicio de instalación de un sistema de
 
             <div class="campo-conclusiones">
 
-                <textarea
-                    rows="8"
-                    placeholder="Ingrese los resultados de la instalación..."></textarea>
+            <textarea
+            rows="8"
+            readonly>•Finalizada la instalación, el nuevo sistema UPS y caja de transferencia quedaron operando de manera correcta. Se verificó el correcto funcionamiento de los circuitos de entrada y salida, así como la ausencia de alarmas o eventos de falla durante las pruebas operativas. Los equipo quedó en condiciones adecuadas para su operación continua.</textarea>
 
             </div>
 
@@ -1658,10 +1602,12 @@ El cliente solicitó la ejecución del servicio de instalación de un sistema de
 
             <div class="campo-recomendaciones">
 
-                <textarea
-                    rows="8"
-                    placeholder="Ingrese las recomendaciones del servicio realizado..."></textarea>
+                <textarea readonly rows="8">
+• Implementar un programa de mantenimiento preventivo semestral para el UPS, con el fin de optimizar la vida útil de las baterías y garantizar el correcto funcionamiento del equipo.
 
+• Realizar inspecciones periódicas de la caja de transferencia, verificando el estado de los dispositivos de maniobra, conexiones eléctricas, terminales y conductores.
+
+• Proceder al reemplazo de las baterías cuando el UPS lo indique o al detectar signos evidentes de deterioro, a fin de prevenir fallos inesperados y asegurar la continuidad operativa.</textarea>
             </div>
 
         </div>
@@ -1671,42 +1617,28 @@ El cliente solicitó la ejecución del servicio de instalación de un sistema de
     `;
 
 }
+
 const descripcionesFotos = [
 
-"Vista del ambiente de trabajo",
-"Vista del UPS antiguo (inoperativo)",
-"Alarma presente en el UPS antiguo (fallas DC)",
-"Vista del banco externo de baterías",
-"Vista del tablero eléctrico",
-"Circuitos conectados en el Tablero TD-UPS1",
-"Desconexión del UPS antiguo",
-"Desconexión del UPS antiguo",
-"Vista del nuevo UPS, marca SALICRU",
-"Placa de características del UPS",
-"Vista del conexionado del UPS",
-"Vista interna del banco de baterías",
-"Modificación de configuración del banco",
-"Vista de las baterías, marca RITAR",
-"Mediciones individuales de las baterías",
-"Mediciones generales del banco",
-"Puesta en marcha del sistema UPS",
-"Configuración de los valores nominales",
-"Configuración de los valores nominales",
-"Pruebas de funcionamiento en modo Bypass",
-"Pruebas de funcionamiento en modo Inversor",
-"Parámetros eléctricos de entrada",
-"Parámetros eléctricos de salida",
-"Parámetros eléctricos de baterías",
-"Pruebas de funcionamiento en modo Baterías",
-"Parámetros eléctricos en modo baterías",
-"Mediciones eléctricas de salida",
-"Mediciones eléctricas de salida",
-"Mediciones de corriente de entrada",
-"Mediciones de corriente de salida",
-"Vista del nuevo UPS después de la instalación",
-"Vista de los equipos finalizado el servicio",
-"Vista del ambiente de trabajo finalizado el servicio",
-"Vista final del UPS inoperativo"
+    "DIAGRAMA DE TABLERO",
+
+    "TABLERO ELECTRICO",
+
+    "UPS DE ANTIGUO",
+
+    "INSTALACION DE UPS NUEVO",
+
+    "PRUEBAS DE AUTONOMIA DE UPS",
+
+    "SITUACION FINAL",
+
+    "CAJA DE TRANSFERENCIA ANTIGUA",
+
+    "CAJA DE TRANSFERENCIA ANTIGUA",
+
+    "CAJA DE TRANSFERENCIA ANTIGUA",
+
+    "CAJA DE TRANSFERENCIA ANTIGUA"
 
 ];
 
@@ -1734,11 +1666,15 @@ function generarReporteFotografico() {
                         ${numero}. ${descripcion}
                     </div>
 
-                    <input
-                        type="file"
-                        accept="image/*">
+            <div>
+                <input
+                    type="file"
+                    accept="image/*">
 
-                </div>
+                <input
+                    type="file"
+                    accept="image/*">
+            </div>
             `;
 
         });
@@ -1868,9 +1804,9 @@ const equipo =
 equipoActual.querySelector(".equipo-input")?.value || "";
 
 const equiposEnergizados =
-equipoActual.querySelector(".equipos-energizados-input")?.value || "";
+    equipoActual.querySelector(".equipos-energizados-input")?.selectedOptions[0]?.text.trim() || "";
 
-const servicio =
+    const servicio =
 equipoActual.querySelector(".servicio-input")?.value || "";
 
 const fecha =
@@ -2399,30 +2335,21 @@ pdf.text(
     yAntecedentes + 20
 );
 
-const actividades = [];
+const bloqueTrabajos =
+    equipoActual.querySelector(".actividades-box");
 
-equipoActual.querySelectorAll(
-    ".actividades-box .checklist-item"
-)
-.forEach(item => {
+const textoTrabajos =
+    bloqueTrabajos
+        ? bloqueTrabajos.innerText
+            .replace("IV. TRABAJOS REALIZADOS", "")
+            .trim()
+        : "";
 
-    const check = item.querySelector("input[type='checkbox']");
-    const texto = item.querySelector("label").textContent.trim();
-
-    if(check.checked){
-        actividades.push("• " + texto);
-    }
-
-});
-
-const observaciones =
-equipoActual.querySelector(".actividades-box textarea")?.value || "";
-
-if(observaciones.trim() !== ""){
-    actividades.push("");
-    actividades.push("Observaciones:");
-    actividades.push(observaciones);
-}
+const actividades =
+    textoTrabajos
+        .split("\n")
+        .map(linea => linea.trim())
+        .filter(linea => linea !== "");
 
 pdf.addPage();
 
@@ -3123,11 +3050,7 @@ pdf.setFont(
 
 pdf.setFontSize(10);
 
-pdf.text(
-    "▪ Pruebas de funcionamiento de la caja de transferencia",
-    28,
-    yPruebasCaja + 25
-);
+
 
 pdf.autoTable({
 
@@ -3236,86 +3159,99 @@ pdf.text(
     15,
     15
 );
-const fotos =
-equipoActual.querySelectorAll(
-'.reporteFotografico input[type="file"]'
-);
-let x = 15;
-let yFoto = 25;
+const contenedoresFotos =
+    equipoActual.querySelectorAll(
+        ".reporteFotografico .foto-item"
+    );
 
 let contadorFotos = 0;
 
 const posiciones = [
-
     {x:15,  y:25},
     {x:110, y:25},
-
     {x:15,  y:140},
     {x:110, y:140}
-
 ];
 
-for(let i = 0; i < fotos.length; i++){
+for(let i = 0; i < contenedoresFotos.length; i++){
 
-    if(!fotos[i].files[0]) continue;
+    const contenedorFoto =
+        contenedoresFotos[i];
 
-    const imagenBase64 =
-    await leerImagen(
-        fotos[i].files[0]
-    );
+    const titulo =
+        contenedorFoto.querySelector(
+            ".foto-titulo"
+        )?.textContent.trim() || "";
 
-    const posicion =
-    posiciones[
-        contadorFotos % 4
-    ];
-
-    pdf.rect(
-        posicion.x,
-        posicion.y,
-        80,
-        70
-    );
-
-  pdf.addImage(
-    imagenBase64,
-    posicion.x + 2,
-    posicion.y + 2,
-    76,
-    55
-);
-
-    pdf.setFontSize(8);
-
-    pdf.text(
-        descripcionesFotos[i],
-        posicion.x,
-        posicion.y + 63,
-        { maxWidth:80 }
-    );
-
-    contadorFotos++;
-
-    if(
-        contadorFotos % 4 === 0 &&
-        i < fotos.length - 1
-    ){
-
-        pdf.addPage();
-
-        pdf.setFont(
-            "times",
-            "bold"
+    const archivos =
+        contenedorFoto.querySelectorAll(
+            'input[type="file"]'
         );
 
-        pdf.setFontSize(11);
+    for(let j = 0; j < archivos.length; j++){
+
+        if(!archivos[j].files[0]){
+            continue;
+        }
+
+        const imagenBase64 =
+            await leerImagen(
+                archivos[j].files[0]
+            );
+
+        const posicion =
+            posiciones[
+                contadorFotos % 4
+            ];
+
+        pdf.rect(
+            posicion.x,
+            posicion.y,
+            80,
+            70
+        );
+
+        pdf.addImage(
+            imagenBase64,
+            posicion.x + 2,
+            posicion.y + 2,
+            76,
+            55
+        );
+
+        pdf.setFontSize(8);
 
         pdf.text(
-         "VII. REGISTRO VISUAL",
-        15,
-        15
+            titulo,
+            posicion.x,
+            posicion.y + 63,
+            {
+                maxWidth:80
+            }
         );
-    }
 
+        contadorFotos++;
+
+        if(
+            contadorFotos % 4 === 0
+        ){
+
+            pdf.addPage();
+
+            pdf.setFont(
+                "times",
+                "bold"
+            );
+
+            pdf.setFontSize(11);
+
+            pdf.text(
+                "VII. REGISTRO VISUAL",
+                15,
+                15
+            );
+        }
+    }
 }
 const conclusiones =
 equipoActual.querySelector(
