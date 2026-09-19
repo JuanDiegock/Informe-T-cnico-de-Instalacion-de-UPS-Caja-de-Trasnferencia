@@ -561,7 +561,7 @@ function crearDatosGenerales(numero){
                 </h2>
 
                 <textarea readonly>
-•En el presente informe se detalla el servicio de instalación de un sistema de alimentación ininterrumpida (UPS) y una caja de transferencia.
+En el presente informe se detalla el servicio de instalación de un sistema de alimentación ininterrumpida (UPS) y una caja de transferencia.
                 </textarea>
 
             </div>
@@ -939,11 +939,11 @@ function crearDatosGenerales(numero){
                 </h2>
 
 <textarea readonly >
-• El cliente solicitó la ejecución del servicio de instalación de un sistema de alimentación ininterrumpida (UPS) y la instalación de una caja de transferencia, con la finalidad de proporcionar alimentación eléctrica estabilizada y respaldo a las cargas críticas correspondientes a la línea de cajas.
+El cliente solicitó la ejecución del servicio de instalación de un sistema de alimentación ininterrumpida (UPS) y la instalación de una caja de transferencia, con la finalidad de proporcionar alimentación eléctrica estabilizada y respaldo a las cargas críticas correspondientes a la línea de cajas.
 
-• El servicio comprendió el traslado y ubicación de los equipos en el área destinada, instalación física del UPS, instalación y fijación de la caja de transferencia, ejecución de los conexionados eléctricos correspondientes, conexión al sistema de puesta a tierra, identificación de los circuitos de alimentación y salida, configuración inicial del UPS, puesta en marcha y ejecución de las pruebas funcionales.
+El servicio comprendió el traslado y ubicación de los equipos en el área destinada, instalación física del UPS, instalación y fijación de la caja de transferencia, ejecución de los conexionados eléctricos correspondientes, conexión al sistema de puesta a tierra, identificación de los circuitos de alimentación y salida, configuración inicial del UPS, puesta en marcha y ejecución de las pruebas funcionales.
 
-• La intervención fue realizada considerando las condiciones existentes de la instalación eléctrica y coordinando previamente con el personal responsable del establecimiento, a fin de ejecutar los trabajos de manera segura y controlada.
+La intervención fue realizada considerando las condiciones existentes de la instalación eléctrica y coordinando previamente con el personal responsable del establecimiento, a fin de ejecutar los trabajos de manera segura y controlada.
 </textarea>
 
             </div>
@@ -1070,7 +1070,7 @@ function crearDatosGenerales(numero){
 
 
                 <h3 style="margin-top:25px;color:#003f73;">
-                    ▪ Mediciones eléctricas del UPS
+                    - Mediciones eléctricas del UPS
                 </h3>
 
 
@@ -1189,7 +1189,7 @@ function crearDatosGenerales(numero){
 
 
                 <h3 style="margin-top:30px;color:#003f73;">
-                    ▪ Mediciones eléctricas de la caja de transferencia
+                    - Mediciones eléctricas de la caja de transferencia
                 </h3>
 
 
@@ -1311,7 +1311,7 @@ function crearDatosGenerales(numero){
 
 
                 <h3 style="margin-top:25px;color:#003f73;">
-                    ▪ Pruebas de funcionamiento del UPS
+                    - Pruebas de funcionamiento del UPS
                 </h3>
 
 
@@ -1445,7 +1445,7 @@ function crearDatosGenerales(numero){
 
 
                 <h3 style="margin-top:30px;color:#003f73;">
-                    ▪ Pruebas de funcionamiento de la caja de transferencia
+                    - Pruebas de funcionamiento de la caja de transferencia
                 </h3>
 
 
@@ -1587,7 +1587,7 @@ function crearDatosGenerales(numero){
 
             <textarea
             rows="8"
-            readonly>•Finalizada la instalación, el nuevo sistema UPS y caja de transferencia quedaron operando de manera correcta. Se verificó el correcto funcionamiento de los circuitos de entrada y salida, así como la ausencia de alarmas o eventos de falla durante las pruebas operativas. Los equipo quedó en condiciones adecuadas para su operación continua.</textarea>
+            readonly>Finalizada la instalación, el nuevo sistema UPS y caja de transferencia quedaron operando de manera correcta. Se verificó el correcto funcionamiento de los circuitos de entrada y salida, así como la ausencia de alarmas o eventos de falla durante las pruebas operativas. Los equipo quedó en condiciones adecuadas para su operación continua.</textarea>
 
             </div>
 
@@ -1603,11 +1603,11 @@ function crearDatosGenerales(numero){
             <div class="campo-recomendaciones">
 
                 <textarea readonly rows="8">
-• Implementar un programa de mantenimiento preventivo semestral para el UPS, con el fin de optimizar la vida útil de las baterías y garantizar el correcto funcionamiento del equipo.
+Implementar un programa de mantenimiento preventivo semestral para el UPS, con el fin de optimizar la vida útil de las baterías y garantizar el correcto funcionamiento del equipo.
 
-• Realizar inspecciones periódicas de la caja de transferencia, verificando el estado de los dispositivos de maniobra, conexiones eléctricas, terminales y conductores.
+Realizar inspecciones periódicas de la caja de transferencia, verificando el estado de los dispositivos de maniobra, conexiones eléctricas, terminales y conductores.
 
-• Proceder al reemplazo de las baterías cuando el UPS lo indique o al detectar signos evidentes de deterioro, a fin de prevenir fallos inesperados y asegurar la continuidad operativa.</textarea>
+Proceder al reemplazo de las baterías cuando el UPS lo indique o al detectar signos evidentes de deterioro, a fin de prevenir fallos inesperados y asegurar la continuidad operativa.</textarea>
             </div>
 
         </div>
@@ -1666,18 +1666,120 @@ function generarReporteFotografico() {
                         ${numero}. ${descripcion}
                     </div>
 
-            <div>
-                <input
-                    type="file"
-                    accept="image/*">
+                    <div>
+                        <input
+                            type="file"
+                            accept="image/*">
 
-                <input
-                    type="file"
-                    accept="image/*">
-            </div>
+                        <input
+                            type="file"
+                            accept="image/*">
+                    </div>
+
+                </div>
             `;
 
         });
+
+        // =========================
+        // BOTÓN AGREGAR PUNTO
+        // =========================
+
+            const botonAgregar =
+                document.createElement("button");
+
+            botonAgregar.type = "button";
+
+            botonAgregar.textContent =
+                "+ AGREGAR IMAGEN";
+
+            botonAgregar.className =
+            "btn-agregar-punto";
+
+        botonAgregar.addEventListener(
+            "click",
+            ()=>{
+
+                const puntosActuales =
+                    contenedor.querySelectorAll(
+                        ".foto-item"
+                    ).length;
+
+                const nuevoNumero =
+                    puntosActuales + 1;
+
+const nuevoPunto =
+    document.createElement("div");
+
+nuevoPunto.className =
+    "foto-item foto-item-extra";
+
+nuevoPunto.innerHTML = `
+
+    <div class="foto-titulo">
+
+        ${nuevoNumero}.
+
+        <input
+            type="text"
+            class="titulo-foto-extra"
+            placeholder="ESCRIBA EL TÍTULO"
+            style="text-transform:uppercase;">
+
+        <button
+    type="button"
+    class="btn-eliminar-punto">
+    ELIMINAR
+</button>
+
+    </div>
+
+    <div>
+        <input
+            type="file"
+            accept="image/*">
+
+        <input
+            type="file"
+            accept="image/*">
+    </div>
+
+`;
+
+                contenedor.appendChild(
+                    nuevoPunto
+                );
+
+                const titulo =
+                    nuevoPunto.querySelector(
+                        ".titulo-foto-extra"
+                    );
+
+                titulo.addEventListener(
+                    "input",
+                    ()=>{
+                        titulo.value =
+                            titulo.value.toUpperCase();
+                    }
+                );
+                const botonEliminar =
+                nuevoPunto.querySelector(
+                    ".btn-eliminar-punto"
+                );
+
+            botonEliminar.addEventListener(
+                "click",
+                ()=>{
+                    nuevoPunto.remove();
+                }
+            );
+
+            }
+        );
+
+        contenedor.appendChild(
+            botonAgregar
+        );
 
     });
 
@@ -3178,10 +3280,31 @@ for(let i = 0; i < contenedoresFotos.length; i++){
     const contenedorFoto =
         contenedoresFotos[i];
 
-    const titulo =
+const tituloInput =
+    contenedorFoto.querySelector(
+        ".titulo-foto-extra"
+    );
+
+let titulo = "";
+
+if(tituloInput){
+
+    const numero =
+        contenedorFoto.querySelector(
+            ".foto-titulo"
+        )?.childNodes[0]?.textContent.trim() || "";
+
+    titulo =
+        `${numero} ${tituloInput.value.toUpperCase()}`.trim();
+
+}else{
+
+    titulo =
         contenedorFoto.querySelector(
             ".foto-titulo"
         )?.textContent.trim() || "";
+
+}
 
     const archivos =
         contenedorFoto.querySelectorAll(
