@@ -1084,9 +1084,9 @@ La intervención fue realizada considerando las condiciones existentes de la ins
                                 MEDICIONES ELÉCTRICAS
                             </th>
 
-                            <th>R-S</th>
-                            <th>S-T</th>
-                            <th>T-R</th>
+                            <th>L + N</th>
+                            <th> L + T</th>
+                            <th>N + T</th>
 
                         </tr>
 
@@ -1203,9 +1203,9 @@ La intervención fue realizada considerando las condiciones existentes de la ins
                                 MEDICIONES ELÉCTRICAS
                             </th>
 
-                            <th>R-S</th>
-                            <th>S-T</th>
-                            <th>T-R</th>
+                            <th>L + N</th>
+                            <th>L + T </th>
+                            <th>N + T</th>
 
                         </tr>
 
@@ -1591,26 +1591,38 @@ La intervención fue realizada considerando las condiciones existentes de la ins
 
             </div>
 
+<!-- =========================
+     IX. OBSERVACIÓN
+========================== -->
 
-            <!-- =========================
-                 IX. RECOMENDACIONES
-            ========================== -->
+<h2 class="seccion-titulo">
+    IX. OBSERVACIÓN
+</h2>
 
-            <h2 class="seccion-titulo">
-                IX. RECOMENDACIONES
-            </h2>
+<div class="campo-conclusiones">
 
-            <div class="campo-recomendaciones">
+    <textarea rows="8"
+        placeholder="Ingrese las observaciones correspondientes al servicio."></textarea>
 
-                <textarea readonly rows="8">
-Implementar un programa de mantenimiento preventivo semestral para el UPS, con el fin de optimizar la vida útil de las baterías y garantizar el correcto funcionamiento del equipo.
+</div>
 
-Realizar inspecciones periódicas de la caja de transferencia, verificando el estado de los dispositivos de maniobra, conexiones eléctricas, terminales y conductores.
 
-Proceder al reemplazo de las baterías cuando el UPS lo indique o al detectar signos evidentes de deterioro, a fin de prevenir fallos inesperados y asegurar la continuidad operativa.</textarea>
-            </div>
+<!-- =========================
+     X. RECOMENDACIONES
+========================== -->
 
-        </div>
+<h2 class="seccion-titulo">
+    X. RECOMENDACIONES
+</h2>
+
+<div class="campo-recomendaciones">
+
+    <textarea
+        rows="8"
+        placeholder="Ingrese las recomendaciones correspondientes al servicio."
+    ></textarea>
+
+</div>
 
     </div>
 
@@ -2205,13 +2217,21 @@ pdf.splitTextToSize(
     160
 );
 
-const alturaInspeccion = 185;
+// =========================
+// II. EPPS Y EQUIPO
+// =========================
+
+const alturaEpps =
+    Math.max(
+        35,
+        25 + (epps.length * 6)
+    );
 
 pdf.rect(
     15,
     yInspeccion,
     180,
-    alturaInspeccion
+    alturaEpps
 );
 
 pdf.setFillColor(
@@ -2255,7 +2275,8 @@ pdf.setFont(
 
 pdf.setFontSize(10);
 
-let yEpps = yInspeccion + 20;
+let yEpps =
+    yInspeccion + 20;
 
 if (epps.length > 0) {
 
@@ -2281,43 +2302,42 @@ if (epps.length > 0) {
 
 }
 
+
 // =========================
 // DATOS DE LOS EQUIPOS
 // =========================
 
-pdf.addPage();
+let yEquipos =
+    yInspeccion + alturaEpps + 10;
 
-pdf.setFont("times","bold");
-pdf.setFontSize(11);
 
-pdf.text(
-    "II. EPPS Y EQUIPO PARA LA EJECUCIÓN DEL SERVICIO",
-    20,
-    15
-);
-
-pdf.setFont("times","normal");
-pdf.setFontSize(9);
-
-let yEquipos = 25;
-
-function tablaEquipoPDF(titulo, datos, incluirPotencia = false) {
+function tablaEquipoPDF(
+    titulo,
+    datos,
+    incluirPotencia = false
+) {
 
     const filas = [
+
         ["Equipo", datos[0] || ""],
         ["Marca", datos[1] || ""],
         ["Modelo", datos[2] || ""],
         ["Serie", datos[3] || ""]
+
     ];
 
     if (incluirPotencia) {
-        filas.push(["Potencia", datos[4] || ""]);
+
+        filas.push(
+            ["Potencia", datos[4] || ""]
+        );
+
     }
 
     pdf.autoTable({
 
         startY: yEquipos,
-
+        pageBreak: "avoid",
         margin:{
             left:20,
             right:20
@@ -2338,14 +2358,24 @@ function tablaEquipoPDF(titulo, datos, incluirPotencia = false) {
             fontStyle:"bold"
         },
 
-        head:[[titulo,"DATOS TÉCNICOS DEL EQUIPO"]],
+        head:[
+            [
+                titulo,
+                "DATOS TÉCNICOS DEL EQUIPO"
+            ]
+        ],
 
         body: filas
 
     });
 
-    yEquipos = pdf.lastAutoTable.finalY + 8;
+    yEquipos =
+        pdf.lastAutoTable.finalY + 8;
+
 }
+
+
+// UPS ANTIGUO
 
 tablaEquipoPDF(
     "UPS ANTIGUO",
@@ -2353,17 +2383,34 @@ tablaEquipoPDF(
     true
 );
 
+
+// UPS NUEVO
+
 tablaEquipoPDF(
     "UPS NUEVO",
     datosUPSNuevo,
     true
 );
 
+
+// =========================
+// SEGUNDA PARTE DEL II
+// =========================
+
+yEquipos =
+    pdf.lastAutoTable.finalY + 8;
+
+
+// CAJA DE TRANSFERENCIA ANTIGUA
+
 tablaEquipoPDF(
     "CAJA DE TRANSFERENCIA ANTIGUA",
     datosCajaAntigua,
     false
 );
+
+
+// CAJA DE TRANSFERENCIA NUEVA
 
 tablaEquipoPDF(
     "CAJA DE TRANSFERENCIA NUEVA",
@@ -2376,12 +2423,21 @@ tablaEquipoPDF(
 // III. ANTECEDENTES
 // =========================
 
-pdf.addPage();
-
-let yAntecedentes = 15;
+let yAntecedentes =
+    pdf.lastAutoTable.finalY + 15;
 
 const alturaAntecedentes =
     (textoAntecedentes.length * 6) + 25;
+
+if (
+    yAntecedentes + alturaAntecedentes > 275
+) {
+
+    pdf.addPage();
+
+    yAntecedentes = 15;
+
+}
 
 pdf.rect(
     15,
@@ -2655,6 +2711,7 @@ filasMedicionesUPS[8].querySelector("input").value;
 
 const temperatura =
 filasMedicionesUPS[9].querySelector("input").value;
+
 pdf.autoTable({
 
     startY: yMediciones + 55,
@@ -2678,6 +2735,12 @@ pdf.autoTable({
         textColor:[0,0,0],
         fontStyle:"bold"
     },
+        head:[[
+        "MEDICIONES ELÉCTRICAS",
+        "L + N",
+        "L + T",
+        "N + T"
+    ]],
 
  
     didParseCell: function(data){
@@ -2747,9 +2810,8 @@ pdf.rect(
 // MEDICIONES CAJA DE TRANSFERENCIA
 // =========================
 
-pdf.addPage();
-
-let yMedicionesCaja = 15;
+let yMedicionesCaja =
+    pdf.lastAutoTable.finalY + 15;
 
 pdf.rect(
     15,
@@ -2911,9 +2973,9 @@ pdf.autoTable({
 
  head:[[
     "MEDICIONES ELÉCTRICAS",
-    "R-S",
-    "S-T",
-    "T-R"
+    "L + N",
+    "L + T",
+    "N + T"
 ]],
 
 didParseCell: function(data){
@@ -3100,9 +3162,8 @@ pdf.rect(
 // PRUEBAS CAJA DE TRANSFERENCIA
 // =========================
 
-pdf.addPage();
-
-let yPruebasCaja = 15;
+let yPruebasCaja =
+    pdf.lastAutoTable.finalY + 15;
 
 pdf.rect(
     15,
@@ -3448,6 +3509,89 @@ pdf.rect(
     180,
     alturaConclusiones
 );
+
+
+// =========================
+// IX. OBSERVACIÓN
+// =========================
+
+pdf.addPage();
+
+const observacion =
+equipoActual.querySelectorAll(
+    ".campo-conclusiones textarea"
+)[1]?.value || "";
+
+let yObservacion = 15;
+
+const textoObservacion =
+pdf.splitTextToSize(
+    observacion,
+    160
+);
+
+const alturaObservacion =
+(textoObservacion.length * 5) + 25;
+
+pdf.setFillColor(
+    220,
+    220,
+    220
+);
+
+pdf.rect(
+    15,
+    yObservacion,
+    180,
+    10,
+    "F"
+);
+
+pdf.line(
+    15,
+    yObservacion + 10,
+    195,
+    yObservacion + 10
+);
+
+pdf.setFont(
+    "times",
+    "bold"
+);
+
+pdf.setFontSize(11);
+
+pdf.text(
+    "IX. OBSERVACIÓN",
+    20,
+    yObservacion + 7
+);
+
+pdf.setFont(
+    "times",
+    "normal"
+);
+
+pdf.setFontSize(10);
+
+pdf.text(
+    textoObservacion,
+    22,
+    yObservacion + 20
+);
+
+pdf.rect(
+    15,
+    yObservacion,
+    180,
+    alturaObservacion
+);
+
+
+// =========================
+// X. RECOMENDACIONES
+// =========================
+
 pdf.addPage();
 
 const recomendaciones =
@@ -3495,7 +3639,7 @@ pdf.setFont(
 pdf.setFontSize(11);
 
 pdf.text(
-    "IX. RECOMENDACIONES",
+    "X. RECOMENDACIONES",
     20,
     yRecomendaciones + 7
 );
