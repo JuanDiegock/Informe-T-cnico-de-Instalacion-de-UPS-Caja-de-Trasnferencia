@@ -1585,10 +1585,10 @@ La intervención fue realizada considerando las condiciones existentes de la ins
 
             <div class="campo-conclusiones">
 
-            <textarea
-            rows="8"
-            readonly>Finalizada la instalación, el nuevo sistema UPS y caja de transferencia quedaron operando de manera correcta. Se verificó el correcto funcionamiento de los circuitos de entrada y salida, así como la ausencia de alarmas o eventos de falla durante las pruebas operativas. Los equipo quedó en condiciones adecuadas para su operación continua.</textarea>
-
+          <textarea
+    rows="8"
+    readonly
+>Finalizada la instalación, el nuevo sistema UPS y caja de transferencia quedaron operando de manera correcta. Se verificó el correcto funcionamiento de los circuitos de entrada y salida, así como la ausencia de alarmas o eventos de falla durante las pruebas operativas. Los equipo quedó en condiciones adecuadas para su operación continua.</textarea>
             </div>
 
 <!-- =========================
@@ -1614,15 +1614,20 @@ La intervención fue realizada considerando las condiciones existentes de la ins
 <h2 class="seccion-titulo">
     X. RECOMENDACIONES
 </h2>
-
 <div class="campo-recomendaciones">
 
     <textarea
         rows="8"
-        placeholder="Ingrese las recomendaciones correspondientes al servicio."
-    ></textarea>
+        readonly
+>• Implementar un programa de mantenimiento preventivo semestral para el UPS, con el fin de optimizar la vida útil de las baterías y garantizar el correcto funcionamiento del equipo.
+
+• Realizar inspecciones periódicas de la caja de transferencia, verificando el estado de los dispositivos de maniobra, conexiones eléctricas, terminales y conductores.
+
+• Proceder al reemplazo de las baterías cuando el UPS lo indique o al detectar signos evidentes de deterioro, a fin de prevenir fallos inesperados y asegurar la continuidad operativa.</textarea>
 
 </div>
+
+
 
     </div>
 
@@ -1954,8 +1959,7 @@ pdf.text(
     { align:"center" }
 );
 
-pdf.setFontSize(9);
-
+pdf.setFontSize(10);
 pdf.text(
     "N° " + codigoEquipo,
     190,
@@ -3308,69 +3312,109 @@ function leerImagen(file){
     });
 
 }
-pdf.addPage();
+function leerImagen(file){
 
-pdf.setFont(
-    "times",
-    "bold"
-);
+    return new Promise((resolve)=>{
 
-pdf.setFontSize(11);
+        const reader =
+        new FileReader();
 
-pdf.text(
-    "VII. REGISTRO VISUAL",
-    15,
-    15
-);
-const contenedoresFotos =
+        reader.onload = function(e){
+
+            resolve(
+                e.target.result
+            );
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+// =========================
+// VII. REGISTRO VISUAL
+// UN PUNTO POR PÁGINA
+// =========================
+
+const puntosFotos =
     equipoActual.querySelectorAll(
         ".reporteFotografico .foto-item"
     );
 
-let contadorFotos = 0;
 
-const posiciones = [
-    {x:15,  y:25},
-    {x:110, y:25},
-    {x:15,  y:140},
-    {x:110, y:140}
-];
+for(let i = 0; i < puntosFotos.length; i++){
 
-for(let i = 0; i < contenedoresFotos.length; i++){
+    const punto =
+        puntosFotos[i];
 
-    const contenedorFoto =
-        contenedoresFotos[i];
 
-const tituloInput =
-    contenedorFoto.querySelector(
-        ".titulo-foto-extra"
+    // =========================
+    // NUEVA HOJA PARA CADA PUNTO
+    // =========================
+
+    pdf.addPage();
+
+
+    pdf.setFont(
+        "times",
+        "bold"
     );
 
-let titulo = "";
+    pdf.setFontSize(11);
 
-if(tituloInput){
+    pdf.text(
+        "VII. REGISTRO VISUAL",
+        15,
+        15
+    );
 
-    const numero =
-        contenedorFoto.querySelector(
-            ".foto-titulo"
-        )?.childNodes[0]?.textContent.trim() || "";
 
-    titulo =
-        `${numero} ${tituloInput.value.toUpperCase()}`.trim();
+    // =========================
+    // OBTENER TÍTULO
+    // =========================
 
-}else{
+    const tituloInput =
+        punto.querySelector(
+            ".titulo-foto-extra"
+        );
 
-    titulo =
-        contenedorFoto.querySelector(
-            ".foto-titulo"
-        )?.textContent.trim() || "";
+    let titulo = "";
 
-}
+    if(tituloInput){
+
+        const numero =
+            punto.querySelector(
+                ".foto-titulo"
+            )?.childNodes[0]?.textContent.trim() || "";
+
+        titulo =
+            `${numero} ${tituloInput.value.toUpperCase()}`.trim();
+
+    }else{
+
+        titulo =
+            punto.querySelector(
+                ".foto-titulo"
+            )?.textContent.trim() || "";
+
+    }
+
+
+    // =========================
+    // OBTENER LAS 2 FOTOS
+    // =========================
 
     const archivos =
-        contenedorFoto.querySelectorAll(
+        punto.querySelectorAll(
             'input[type="file"]'
         );
+
+
+    const fotosPunto = [];
+
 
     for(let j = 0; j < archivos.length; j++){
 
@@ -3383,286 +3427,215 @@ if(tituloInput){
                 archivos[j].files[0]
             );
 
-        const posicion =
-            posiciones[
-                contadorFotos % 4
-            ];
-
-        pdf.rect(
-            posicion.x,
-            posicion.y,
-            80,
-            70
+        fotosPunto.push(
+            imagenBase64
         );
 
-        pdf.addImage(
-            imagenBase64,
-            posicion.x + 2,
-            posicion.y + 2,
-            76,
-            55
-        );
-
-        pdf.setFontSize(8);
-
-        pdf.text(
-            titulo,
-            posicion.x,
-            posicion.y + 63,
-            {
-                maxWidth:80
-            }
-        );
-
-        contadorFotos++;
-
-        if(
-            contadorFotos % 4 === 0
-        ){
-
-            pdf.addPage();
-
-            pdf.setFont(
-                "times",
-                "bold"
-            );
-
-            pdf.setFontSize(11);
-
-            pdf.text(
-                "VII. REGISTRO VISUAL",
-                15,
-                15
-            );
-        }
     }
+
+
+// =========================
+// POSICIÓN FOTO 1
+// =========================
+
+if(fotosPunto[0]){
+
+    pdf.addImage(
+        fotosPunto[0],
+        "JPEG",
+        30,
+        25,
+        150,
+        98
+    );
+
 }
-const conclusiones =
-equipoActual.querySelector(
-".campo-conclusiones textarea"
-)?.value || "";
-
-pdf.addPage();
-
-let yConclusiones = 15;
-
-const textoConclusiones =
-pdf.splitTextToSize(
-    conclusiones,
-    160
-);
-
-const alturaConclusiones =
-(textoConclusiones.length * 5) + 25;
-
-
-
-pdf.setFillColor(
-    220,
-    220,
-    220
-);
-
-pdf.rect(
-    15,
-    yConclusiones,
-    180,
-    10,
-    "F"
-);
-
-pdf.line(
-    15,
-    yConclusiones + 10,
-    195,
-    yConclusiones + 10
-);
-
-pdf.setFont(
-    "times",
-    "bold"
-);
-
-pdf.setFontSize(11);
-
-pdf.text(
-    "VIII. RESULTADOS DE LA INSTALACIÓN",
-    20,
-    yConclusiones + 7
-);
-
-pdf.setFont(
-    "times",
-    "normal"
-);
-
-pdf.setFontSize(10);
-
-pdf.text(
-    textoConclusiones,
-    22,
-    yConclusiones + 20
-);
-pdf.rect(
-    15,
-    yConclusiones,
-    180,
-    alturaConclusiones
-);
 
 
 // =========================
-// IX. OBSERVACIÓN
+// POSICIÓN FOTO 2
 // =========================
 
-pdf.addPage();
+if(fotosPunto[1]){
 
-const observacion =
+    pdf.addImage(
+        fotosPunto[1],
+        "JPEG",
+        30,
+        138,
+        150,
+        98
+    );
+
+}
+
+    // =========================
+    // CASILLA DEL TÍTULO
+    // =========================
+
+    pdf.setFillColor(
+        220,
+        220,
+        220
+    );
+
+    pdf.rect(
+        20,
+        258,
+        170,
+        15,
+        "F"
+    );
+
+    pdf.rect(
+        20,
+        258,
+        170,
+        15
+    );
+
+
+    pdf.setFont(
+        "times",
+        "bold"
+    );
+
+    pdf.setFontSize(10);
+
+    pdf.text(
+        titulo,
+        105,
+        267,
+        {
+            align:"center",
+            maxWidth:160
+        }
+    );
+
+}
+const camposConclusiones =
 equipoActual.querySelectorAll(
     ".campo-conclusiones textarea"
-)[1]?.value || "";
-
-let yObservacion = 15;
-
-const textoObservacion =
-pdf.splitTextToSize(
-    observacion,
-    160
 );
 
-const alturaObservacion =
-(textoObservacion.length * 5) + 25;
+const conclusiones =
+    camposConclusiones[0]?.value || "";
 
-pdf.setFillColor(
-    220,
-    220,
-    220
-);
-
-pdf.rect(
-    15,
-    yObservacion,
-    180,
-    10,
-    "F"
-);
-
-pdf.line(
-    15,
-    yObservacion + 10,
-    195,
-    yObservacion + 10
-);
-
-pdf.setFont(
-    "times",
-    "bold"
-);
-
-pdf.setFontSize(11);
-
-pdf.text(
-    "IX. OBSERVACIÓN",
-    20,
-    yObservacion + 7
-);
-
-pdf.setFont(
-    "times",
-    "normal"
-);
-
-pdf.setFontSize(10);
-
-pdf.text(
-    textoObservacion,
-    22,
-    yObservacion + 20
-);
-
-pdf.rect(
-    15,
-    yObservacion,
-    180,
-    alturaObservacion
-);
-
-
-// =========================
-// X. RECOMENDACIONES
-// =========================
-
-pdf.addPage();
+const observacion =
+    camposConclusiones[1]?.value || "";
 
 const recomendaciones =
 equipoActual.querySelector(
     ".campo-recomendaciones textarea"
 )?.value || "";
 
-let yRecomendaciones = 15;
 
-const textoRecomendaciones =
-pdf.splitTextToSize(
-    recomendaciones,
-    160
-);
+// =========================
+// VIII, IX Y X
+// EN UNA MISMA HOJA
+// =========================
 
-const alturaRecomendaciones =
-(textoRecomendaciones.length * 5) + 25;
+pdf.addPage();
 
-pdf.setFillColor(
-    220,
-    220,
-    220
-);
+let yFinal = 15;
 
-pdf.rect(
-    15,
-    yRecomendaciones,
-    180,
-    10,
-    "F"
-);
+function dibujarBloqueFinal(titulo, texto, y){
 
-pdf.line(
-    15,
-    yRecomendaciones + 10,
-    195,
-    yRecomendaciones + 10
-);
+    const textoFormateado =
+        pdf.splitTextToSize(
+            texto || "",
+            160
+        );
 
-pdf.setFont(
-    "times",
-    "bold"
-);
+    const altura = 75;
 
-pdf.setFontSize(11);
+    pdf.setFillColor(
+        220,
+        220,
+        220
+    );
 
-pdf.text(
-    "X. RECOMENDACIONES",
-    20,
-    yRecomendaciones + 7
-);
+    pdf.rect(
+        15,
+        y,
+        180,
+        10,
+        "F"
+    );
 
-pdf.setFont(
-    "times",
-    "normal"
-);
+    pdf.line(
+        15,
+        y + 10,
+        195,
+        y + 10
+    );
 
-pdf.setFontSize(10);
+    pdf.setFont(
+        "times",
+        "bold"
+    );
 
-pdf.text(
-    textoRecomendaciones,
+    pdf.setFontSize(11);
+
+    pdf.text(
+        titulo,
+        20,
+        y + 7
+    );
+
+    pdf.setFont(
+        "times",
+        "normal"
+    );
+
+  pdf.setFontSize(12);
+
+    pdf.text(
+    textoFormateado,
     22,
-    yRecomendaciones + 20
+    y + 18,
+    {
+        maxWidth: 160
+    }
 );
 
-pdf.rect(
-    15,
-    yRecomendaciones,
-    180,
-    alturaRecomendaciones
+    pdf.rect(
+        15,
+        y,
+        180,
+        altura
+    );
+
+    return y + altura + 8;
+}
+
+
+// VIII. RESULTADOS
+
+yFinal = dibujarBloqueFinal(
+    "VIII. RESULTADOS DE LA INSTALACIÓN",
+    conclusiones,
+    yFinal
 );
+
+
+// IX. OBSERVACIÓN
+
+yFinal = dibujarBloqueFinal(
+    "IX. OBSERVACIÓN",
+    observacion,
+    yFinal
+);
+
+
+// X. RECOMENDACIONES
+
+yFinal = dibujarBloqueFinal(
+    "X. RECOMENDACIONES",
+    recomendaciones,
+    yFinal
+);
+
 const estadoSeleccionado =
 equipoActual.querySelector(
 'input[type="radio"]:checked'
@@ -3683,9 +3656,7 @@ equipoActual.querySelectorAll(
 )[1]?.value || "";
 
 let yEstado =
-yRecomendaciones +
-alturaRecomendaciones +
-20;
+yFinal + 20;
 
 pdf.setFont(
     "times",
