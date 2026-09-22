@@ -1893,8 +1893,17 @@ async function generarPDF(){
 document.querySelectorAll(".equipo-card");
 
     
-const logo =
-    document.querySelector(".logo");
+const logo = new Image();
+
+logo.src = "Infrasol_Logo.png";
+
+await new Promise((resolve) => {
+
+    logo.onload = resolve;
+
+    logo.onerror = resolve;
+
+});
 // =========================
 // ENCABEZADO CORPORATIVO
 // =========================
@@ -1930,15 +1939,14 @@ function dibujarEncabezado(pdf){
     // =========================
 
     if(logo.complete && logo.naturalWidth > 0){
-
-        pdf.addImage(
-            logo,
-            "PNG",
-            12,
-            1,
-            12,
-            12
-        );
+    pdf.addImage(
+    logo,
+    "PNG",
+    11,
+    1,
+    13,
+    12
+);
 
     }
 
@@ -3891,5 +3899,4 @@ localStorage.setItem(
 actualizarCodigo();
 
     }
-
 
