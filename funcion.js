@@ -1651,11 +1651,11 @@ const descripcionesFotos = [
 
     "CAJA DE TRANSFERENCIA ANTIGUA",
 
-    "CAJA DE TRANSFERENCIA ANTIGUA",
+    "CAJA DE TRANSFERENCIA NUEVA",
 
-    "CAJA DE TRANSFERENCIA ANTIGUA",
+    "PRUEBAS DE CAJA DE TRANSFERENCIA",
 
-    "CAJA DE TRANSFERENCIA ANTIGUA"
+    "SITUACION FINAL"
 
 ];
 
@@ -1901,6 +1901,111 @@ await new Promise((resolve) => {
     logo.onload = resolve;
     logo.onerror = resolve;
 });
+// =========================
+// ENCABEZADO CORPORATIVO
+// =========================
+
+// =========================
+// ENCABEZADO CORPORATIVO
+// =========================
+
+// =========================
+// ENCABEZADO CORPORATIVO
+// =========================
+
+function dibujarEncabezado(pdf){
+
+    // Fondo gris claro
+    pdf.setFillColor(
+        242,
+        242,
+        242
+    );
+
+    pdf.rect(
+        0,
+        0,
+        210,
+        14,
+        "F"
+    );
+
+
+    // =========================
+    // LOGO INFRASOL
+    // =========================
+
+    if(logo.complete && logo.naturalWidth > 0){
+
+        pdf.addImage(
+            logo,
+            "PNG",
+            12,
+            1,
+            12,
+            12
+        );
+
+    }
+
+
+    // =========================
+    // BARRA AZUL
+    // =========================
+
+    pdf.setFillColor(
+        68,
+        84,
+        106
+    );
+
+    pdf.rect(
+        186,
+        0,
+        8,
+        14,
+        "F"
+    );
+
+
+    // =========================
+    // BARRA AMARILLA
+    // =========================
+
+    pdf.setFillColor(
+        255,
+        192,
+        0
+    );
+
+    pdf.rect(
+        194,
+        0,
+        8,
+        14,
+        "F"
+    );
+
+
+    // =========================
+    // BARRA GRIS
+    // =========================
+
+    pdf.setFillColor(
+        165,
+        165,
+        165
+    );
+
+    pdf.rect(
+        202,
+        0,
+        8,
+        14,
+        "F"
+    );
+
+}
 
     for(let indice = 0; indice < equipos.length; indice++){
         const codigoEquipo =
@@ -1934,16 +2039,7 @@ equipoActual.querySelector(".fecha-input")?.value || "";
         const pdf =
         new jsPDF("p","mm","a4");
 
-   if (logo.complete && logo.naturalWidth > 0) {
-    pdf.addImage(
-        logo,
-        "PNG",
-        8,
-        8,
-        10,
-        10
-    );
-}
+
 
 pdf.setFont(
     "times",
@@ -1955,7 +2051,7 @@ pdf.setFontSize(14);
 pdf.text(
     "INFORME TÉCNICO DE MANTENIMIENTO UPS",
     100,
-    18,
+    24,
     { align:"center" }
 );
 
@@ -1963,22 +2059,22 @@ pdf.setFontSize(10);
 pdf.text(
     "N° " + codigoEquipo,
     190,
-    15,
+    22,
     { align:"right" }
 );
 
 pdf.text(
     "EQUIPO " + (indice + 1),
     190,
-    25,
+    31,
     { align:"right" }
 );
 
 pdf.line(
     10,
-    35,
+    40,
     200,
-    35
+    40
 );
 const eq =
 equipoActual.querySelector(
@@ -2034,7 +2130,7 @@ equipoActual.querySelectorAll(
 
 pdf.autoTable({
 
-    startY: 45,
+    startY: 50,
 
     theme: "grid",
 
@@ -2497,48 +2593,78 @@ pdf.text(
     yAntecedentes + 20
 );
 
+// =========================
+// IV. TRABAJOS REALIZADOS
+// =========================
+
 const bloqueTrabajos =
     equipoActual.querySelector(".actividades-box");
-
-const textoTrabajos =
-    bloqueTrabajos
-        ? bloqueTrabajos.innerText
-            .replace("IV. TRABAJOS REALIZADOS", "")
-            .trim()
-        : "";
-
-const actividades =
-    textoTrabajos
-        .split("\n")
-        .map(linea => linea.trim())
-        .filter(linea => linea !== "");
 
 pdf.addPage();
 
 let yActividades = 15;
 
-const textoActividades = [];
+const xTexto = 22;
+const anchoTexto = 160;
 
-actividades.forEach(linea => {
+function dibujarTextoTrabajos(texto, opciones = {}){
 
-    const partes =
-    pdf.splitTextToSize(
-        linea,
-        160
+    const {
+        negrita = false,
+        sangria = 0,
+        espacioAntes = 0,
+        espacioDespues = 0,
+        viñeta = false
+    } = opciones;
+
+    yActividades += espacioAntes;
+
+    pdf.setFont(
+        "times",
+        negrita ? "bold" : "normal"
     );
 
-    textoActividades.push(...partes);
+    pdf.setFontSize(10);
 
-});
-const alturaActividades =
-(textoActividades.length * 6) + 15;
+    const textoFinal =
+        viñeta
+            ? "• " + texto
+            : texto;
 
-pdf.rect(
-    15,
-    yActividades,
-    180,
-    alturaActividades
-);
+    const lineas =
+        pdf.splitTextToSize(
+            textoFinal,
+            anchoTexto - sangria
+        );
+
+    lineas.forEach(linea => {
+
+        if(yActividades > 270){
+
+            pdf.addPage();
+
+            yActividades = 20;
+
+        }
+
+        pdf.text(
+            linea,
+            xTexto + sangria,
+            yActividades
+        );
+
+        yActividades += 6;
+
+    });
+
+    yActividades += espacioDespues;
+
+}
+
+
+// =========================
+// ENCABEZADO DE LA SECCIÓN
+// =========================
 
 pdf.setFillColor(
     220,
@@ -2554,11 +2680,11 @@ pdf.rect(
     "F"
 );
 
-pdf.line(
+pdf.rect(
     15,
-    yActividades + 10,
-    195,
-    yActividades + 10
+    yActividades,
+    180,
+    10
 );
 
 pdf.setFont(
@@ -2574,39 +2700,114 @@ pdf.text(
     yActividades + 7
 );
 
-pdf.setFont(
-    "times",
-    "normal"
-);
+yActividades += 20;
 
-pdf.setFontSize(10);
 
-let yTexto = yActividades + 18;
+// =========================
+// OBTENER ELEMENTOS DEL INFORME
+// =========================
 
-for(let i = 0; i < textoActividades.length; i++){
+const elementosTrabajos =
+    bloqueTrabajos.children;
 
-    if(yTexto > 260){
 
-        pdf.addPage();
+// =========================
+// RECORRER EL CONTENIDO
+// =========================
 
-        yTexto = 20;
+for(let elemento of elementosTrabajos){
+
+    // -------------------------
+    // PÁRRAFOS
+    // -------------------------
+
+    if(elemento.tagName === "P"){
+
+        const texto =
+            elemento.innerText.trim();
+
+        if(!texto){
+            continue;
+        }
+
+        const esNegrita =
+            elemento.querySelector("strong") !== null;
+
+        dibujarTextoTrabajos(
+            texto,
+            {
+                negrita: esNegrita,
+                espacioAntes: 3,
+                espacioDespues: 2
+            }
+        );
+
     }
 
-    pdf.text(
-        textoActividades[i],
-        22,
-        yTexto
-    );
 
-    yTexto += 6;
+    // -------------------------
+    // LISTAS
+    // -------------------------
+
+    if(elemento.tagName === "UL"){
+
+        const elementosLista =
+            elemento.querySelectorAll(":scope > li");
+
+        const esSublista =
+            elemento.style.marginLeft !== "";
+
+        for(let li of elementosLista){
+
+            const texto =
+                li.innerText
+                    .replace(/\s+/g, " ")
+                    .trim();
+
+            if(!texto){
+                continue;
+            }
+
+            dibujarTextoTrabajos(
+                texto,
+                {
+                    sangria:
+                        esSublista ? 18 : 0,
+
+                    viñeta: true,
+
+                    espacioAntes: 1,
+
+                    espacioDespues: 1
+                }
+            );
+
+        }
+
+    }
+
 }
-console.log(textoActividades.length);
+
+
+// =========================
+// BORDE DE LA SECCIÓN
+// =========================
+
+const alturaFinal =
+    yActividades - 15;
+
 pdf.rect(
     15,
-    yActividades,
+    15,
     180,
-    alturaActividades
+    alturaFinal
 );
+
+
+// =========================
+// CONTINUAR CON V
+// =========================
+
 pdf.addPage();
 
 let yMediciones = 15;
@@ -3366,9 +3567,9 @@ for(let i = 0; i < puntosFotos.length; i++){
     pdf.setFontSize(11);
 
     pdf.text(
-        "VII. REGISTRO VISUAL",
-        15,
-        15
+    "VII. REGISTRO VISUAL",
+    15,
+    25
     );
 
 
@@ -3440,15 +3641,14 @@ for(let i = 0; i < puntosFotos.length; i++){
 
 if(fotosPunto[0]){
 
-    pdf.addImage(
-        fotosPunto[0],
-        "JPEG",
-        30,
-        25,
-        150,
-        98
-    );
-
+pdf.addImage(
+    fotosPunto[0],
+    "JPEG",
+    30,
+    40,
+    150,
+    98
+);
 }
 
 
@@ -3459,58 +3659,61 @@ if(fotosPunto[0]){
 if(fotosPunto[1]){
 
     pdf.addImage(
-        fotosPunto[1],
-        "JPEG",
-        30,
-        138,
-        150,
-        98
-    );
+    fotosPunto[1],
+    "JPEG",
+    30,
+    148,
+    150,
+    98
+);
 
 }
 
-    // =========================
-    // CASILLA DEL TÍTULO
-    // =========================
+// =========================
+// ENCABEZADO DEL PUNTO
+// =========================
 
-    pdf.setFillColor(
-        220,
-        220,
-        220
-    );
+pdf.setFillColor(
+    220,
+    220,
+    220
+);
 
-    pdf.rect(
-        20,
-        258,
-        170,
-        15,
-        "F"
-    );
+pdf.rect(
+    20,
+    30,
+    170,
+    15,
+    "F"
+);
 
-    pdf.rect(
-        20,
-        258,
-        170,
-        15
-    );
+pdf.rect(
+    20,
+    30,
+    170,
+    15
+);
 
 
-    pdf.setFont(
-        "times",
-        "bold"
-    );
+pdf.setFont(
+    "times",
+    "bold"
+);
 
-    pdf.setFontSize(10);
+pdf.setFontSize(10);
 
-    pdf.text(
-        titulo,
-        105,
-        267,
-        {
-            align:"center",
-            maxWidth:160
-        }
-    );
+pdf.text(
+    titulo.replace(
+        /^\d+\.\s*/,
+        ""
+    ),
+    105,
+    39,
+    {
+        align:"center",
+        maxWidth:160
+    }
+);
 
 }
 const camposConclusiones =
@@ -3666,7 +3869,19 @@ pdf.setFont(
 pdf.setFontSize(11);
 
 
+// =========================
+// ENCABEZADO EN TODAS LAS HOJAS
+// =========================
 
+const totalPaginas = pdf.getNumberOfPages();
+
+for(let pagina = 1; pagina <= totalPaginas; pagina++){
+
+    pdf.setPage(pagina);
+
+    dibujarEncabezado(pdf);
+
+}
   
  pdf.save(
     codigoEquipo + ".pdf"
