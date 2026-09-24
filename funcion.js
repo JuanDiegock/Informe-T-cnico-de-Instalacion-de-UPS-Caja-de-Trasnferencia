@@ -1587,7 +1587,6 @@ La intervención fue realizada considerando las condiciones existentes de la ins
 
           <textarea
     rows="8"
-    readonly
 >Finalizada la instalación, el nuevo sistema UPS y caja de transferencia quedaron operando de manera correcta. Se verificó el correcto funcionamiento de los circuitos de entrada y salida, así como la ausencia de alarmas o eventos de falla durante las pruebas operativas. Los equipo quedó en condiciones adecuadas para su operación continua.</textarea>
             </div>
 
@@ -1618,7 +1617,7 @@ La intervención fue realizada considerando las condiciones existentes de la ins
 
     <textarea
         rows="8"
-        readonly
+        
 >• Implementar un programa de mantenimiento preventivo semestral para el UPS, con el fin de optimizar la vida útil de las baterías y garantizar el correcto funcionamiento del equipo.
 
 • Realizar inspecciones periódicas de la caja de transferencia, verificando el estado de los dispositivos de maniobra, conexiones eléctricas, terminales y conductores.
@@ -1634,7 +1633,56 @@ La intervención fue realizada considerando las condiciones existentes de la ins
     `;
 
 }
+// =========================
+// VIÑETAS AUTOMÁTICAS
+// RECOMENDACIONES
+// =========================
 
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.target.matches(
+                ".campo-recomendaciones textarea"
+            ) &&
+            event.key === "Enter"
+        ){
+
+            event.preventDefault();
+
+            const textarea = event.target;
+
+            const inicio =
+                textarea.selectionStart;
+
+            const fin =
+                textarea.selectionEnd;
+
+            const textoAntes =
+                textarea.value.substring(
+                    0,
+                    inicio
+                );
+
+            const textoDespues =
+                textarea.value.substring(
+                    fin
+                );
+
+            textarea.value =
+                textoAntes +
+                "\n\n• " +
+                textoDespues;
+
+            textarea.selectionStart =
+                textarea.selectionEnd =
+                inicio + 4;
+
+        }
+
+    }
+);
 const descripcionesFotos = [
 
     "DIAGRAMA DE TABLERO",
@@ -1823,11 +1871,11 @@ function dibujarSeccion(
         60
     );
 
-    pdf.setFillColor(
-        220,
-        220,
-        220
-    );
+pdf.setFillColor(
+    68,
+    84,
+    106
+);
 
     pdf.rect(
         5,
@@ -1939,13 +1987,13 @@ function dibujarEncabezado(pdf){
     // =========================
 
     if(logo.complete && logo.naturalWidth > 0){
-    pdf.addImage(
+pdf.addImage(
     logo,
     "PNG",
-    11,
-    1,
-    13,
-    12
+    10,
+    0.5,
+    15,
+    14
 );
 
     }
@@ -2058,15 +2106,16 @@ pdf.text(
 );
 
 pdf.setFontSize(10);
+
 pdf.text(
-    "N° " + codigoEquipo,
+    "N° " + String(contador + indice).padStart(3,"0"),
     190,
     22,
     { align:"right" }
 );
 
 pdf.text(
-    "EQUIPO " + (indice + 1),
+    "EQUIPO",
     190,
     31,
     { align:"right" }
@@ -2143,24 +2192,29 @@ pdf.autoTable({
         cellPadding:2
     },
 
-    columnStyles:{
-        0:{
-            cellWidth:30,
-            fontStyle:"bold",
-            fillColor:[220,220,220]
-        },
-        1:{
-            cellWidth:60
-        },
-        2:{
-            cellWidth:30,
-            fontStyle:"bold",
-            fillColor:[220,220,220]
-        },
-        3:{
-            cellWidth:60
-        }
+columnStyles:{
+    0:{
+        cellWidth:30,
+        fontStyle:"bold",
+        fillColor:[68,84,106],
+        textColor:[255,255,255]
     },
+        
+    1:{
+        cellWidth:60
+    },
+
+    2:{
+        cellWidth:30,
+        fontStyle:"bold",
+        fillColor:[68,84,106],
+        textColor:[255,255,255]
+    },
+
+    3:{
+        cellWidth:60
+    }
+},
 body:[
 
     [
@@ -2177,19 +2231,20 @@ body:[
         local
     ],
 
-    [
-        "EQUIPOS ENERGIZADOS",
-        equiposEnergizados,
-        "",
-        ""
+[
+    "EQUIPOS ENERGIZADOS",
+    equiposEnergizados,
+    "FECHA",
+    fecha
     ],
 
     [
-        "SERVICIO",
-        servicio,
-        "FECHA",
-        fecha
-    ]
+    "SERVICIO",
+    {
+        content: servicio,
+        colSpan: 3
+    }
+]
 
 ]
 });
@@ -2222,10 +2277,11 @@ pdf.rect(
     180,
     alturaCaja
 );
+
 pdf.setFillColor(
-    220,
-    220,
-    220
+    68,
+    84,
+    106
 );
 
 pdf.rect(
@@ -2242,6 +2298,7 @@ pdf.line(
     195,
     y + 10
 );
+
 pdf.setFont(
     "times",
     "bold"
@@ -2249,10 +2306,27 @@ pdf.setFont(
 
 pdf.setFontSize(11);
 
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
 pdf.text(
-"I. PRESENTACIÓN",
+    "I. PRESENTACIÓN",
     20,
     y + 7
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+pdf.setTextColor(
+    0,
+    0,
+    0
 );
 pdf.setFont(
     "times",
@@ -2337,9 +2411,9 @@ pdf.rect(
 );
 
 pdf.setFillColor(
-    220,
-    220,
-    220
+    68,
+    84,
+    106
 );
 
 pdf.rect(
@@ -2364,10 +2438,24 @@ pdf.setFont(
 
 pdf.setFontSize(11);
 
+pdf.setFontSize(11);
+
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
 pdf.text(
     "II. EPPS Y EQUIPO PARA LA EJECUCIÓN DEL SERVICIO",
     20,
     yInspeccion + 7
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
 );
 
 pdf.setFont(
@@ -2455,9 +2543,9 @@ function tablaEquipoPDF(
         },
 
         headStyles:{
-            fillColor:[220,220,220],
-            textColor:[0,0,0],
-            fontStyle:"bold"
+        fillColor:[68,84,106],
+        textColor:[255,255,255],
+        fontStyle:"bold"
         },
 
         head:[
@@ -2549,9 +2637,9 @@ pdf.rect(
 );
 
 pdf.setFillColor(
-    220,
-    220,
-    220
+    68,
+    84,
+    106
 );
 
 pdf.rect(
@@ -2567,6 +2655,12 @@ pdf.line(
     yAntecedentes + 10,
     195,
     yAntecedentes + 10
+);
+
+pdf.setTextColor(
+    255,
+    255,
+    255
 );
 
 pdf.setFont(
@@ -2669,9 +2763,9 @@ function dibujarTextoTrabajos(texto, opciones = {}){
 // =========================
 
 pdf.setFillColor(
-    220,
-    220,
-    220
+    68,
+    84,
+    106
 );
 
 pdf.rect(
@@ -2696,10 +2790,22 @@ pdf.setFont(
 
 pdf.setFontSize(11);
 
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
 pdf.text(
     "IV. TRABAJOS REALIZADOS",
     20,
     yActividades + 7
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
 );
 
 yActividades += 20;
@@ -2816,10 +2922,11 @@ let yMediciones = 15;
 
 
 pdf.setFillColor(
-    220,
-    220,
-    220
+    68,
+    84,
+    106
 );
+
 
 pdf.rect(
     15,
@@ -2842,11 +2949,41 @@ pdf.setFont(
 
 pdf.setFontSize(11);
 
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
 pdf.text(
     "V. MEDICIONES ELÉCTRICAS",
     20,
     yMediciones + 7
 );
+
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+
 pdf.setFont(
     "times",
     "normal"
@@ -2937,17 +3074,18 @@ pdf.autoTable({
         lineWidth:0.2
     },
 
-    headStyles:{
-        fillColor:[220,220,220],
-        textColor:[0,0,0],
-        fontStyle:"bold"
-    },
-        head:[[
-        "MEDICIONES ELÉCTRICAS",
-        "L + N",
-        "L + T",
-        "N + T"
-    ]],
+headStyles:{
+    fillColor:[68,84,106],
+    textColor:[255,255,255],
+    fontStyle:"bold"
+},
+
+ head:[[
+    "MEDICIONES ELÉCTRICAS",
+    "L + N",
+    "L + T",
+    "N + T"
+]],
 
  
     didParseCell: function(data){
@@ -3028,9 +3166,9 @@ pdf.rect(
 );
 
 pdf.setFillColor(
-    220,
-    220,
-    220
+    68,
+    84,
+    106
 );
 
 pdf.rect(
@@ -3055,12 +3193,23 @@ pdf.setFont(
 
 pdf.setFontSize(11);
 
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
 pdf.text(
     "V. MEDICIONES ELÉCTRICAS",
     20,
     yMedicionesCaja + 7
 );
 
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
 pdf.setFont(
     "times",
     "normal"
@@ -3173,10 +3322,10 @@ pdf.autoTable({
     },
 
     headStyles:{
-        fillColor:[220,220,220],
-        textColor:[0,0,0],
-        fontStyle:"bold"
-    },
+    fillColor:[68,84,106],
+    textColor:[255,255,255],
+    fontStyle:"bold"
+},
 
  head:[[
     "MEDICIONES ELÉCTRICAS",
@@ -3237,9 +3386,9 @@ pdf.rect(
 );
 
 pdf.setFillColor(
-    220,
-    220,
-    220
+    68,
+    84,
+    106
 );
 
 pdf.rect(
@@ -3264,11 +3413,52 @@ pdf.setFont(
 
 pdf.setFontSize(11);
 
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
 pdf.text(
     "VI. PRUEBAS DE FUNCIONAMIENTO",
     20,
     yPruebas + 7
 );
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+
 pdf.setFont(
     "times",
     "normal"
@@ -3304,10 +3494,10 @@ pdf.autoTable({
     },
 
     headStyles:{
-        fillColor:[220,220,220],
-        textColor:[0,0,0],
-        fontStyle:"bold"
-    },
+    fillColor:[68,84,106],
+    textColor:[255,255,255],
+    fontStyle:"bold"
+},
 
     head:[[
         "PRUEBA EJECUTADA",
@@ -3380,9 +3570,9 @@ pdf.rect(
 );
 
 pdf.setFillColor(
-    220,
-    220,
-    220
+    68,
+    84,
+    106
 );
 
 pdf.rect(
@@ -3407,10 +3597,22 @@ pdf.setFont(
 
 pdf.setFontSize(11);
 
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
 pdf.text(
     "VI. PRUEBAS DE FUNCIONAMIENTO",
     20,
     yPruebasCaja + 7
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
 );
 
 pdf.setFont(
@@ -3440,10 +3642,10 @@ pdf.autoTable({
     },
 
     headStyles:{
-        fillColor:[220,220,220],
-        textColor:[0,0,0],
-        fontStyle:"bold"
-    },
+    fillColor:[68,84,106],
+    textColor:[255,255,255],
+    fontStyle:"bold"
+},
 
     head:[[
         "PRUEBA EJECUTADA",
@@ -3646,10 +3848,10 @@ if(fotosPunto[0]){
 pdf.addImage(
     fotosPunto[0],
     "JPEG",
-    30,
+    35,
     40,
-    150,
-    98
+    140,
+    91
 );
 }
 
@@ -3660,13 +3862,13 @@ pdf.addImage(
 
 if(fotosPunto[1]){
 
-    pdf.addImage(
+pdf.addImage(
     fotosPunto[1],
     "JPEG",
-    30,
+    35,
     148,
-    150,
-    98
+    140,
+    91
 );
 
 }
@@ -3676,9 +3878,9 @@ if(fotosPunto[1]){
 // =========================
 
 pdf.setFillColor(
-    220,
-    220,
-    220
+    68,
+    84,
+    106
 );
 
 pdf.rect(
@@ -3704,6 +3906,12 @@ pdf.setFont(
 
 pdf.setFontSize(10);
 
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
 pdf.text(
     titulo.replace(
         /^\d+\.\s*/,
@@ -3715,6 +3923,12 @@ pdf.text(
         align:"center",
         maxWidth:160
     }
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
 );
 
 }
@@ -3747,18 +3961,24 @@ let yFinal = 15;
 function dibujarBloqueFinal(titulo, texto, y){
 
     const textoFormateado =
-        pdf.splitTextToSize(
-            texto || "",
-            160
-        );
-
-    const altura = 75;
-
-    pdf.setFillColor(
-        220,
-        220,
-        220
+    pdf.splitTextToSize(
+        texto || "",
+        170
     );
+
+  const altura =
+    Math.min(
+        120,
+        Math.max(
+            75,
+            (textoFormateado.length * 5) + 25
+        )
+    );
+pdf.setFillColor(
+    68,
+    84,
+    106
+);
 
     pdf.rect(
         15,
@@ -3780,27 +4000,38 @@ function dibujarBloqueFinal(titulo, texto, y){
         "bold"
     );
 
-    pdf.setFontSize(11);
+  pdf.setFontSize(11);
 
-    pdf.text(
-        titulo,
-        20,
-        y + 7
-    );
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
 
+pdf.text(
+    titulo,
+    20,
+    y + 7
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
     pdf.setFont(
         "times",
         "normal"
     );
 
-  pdf.setFontSize(12);
+pdf.setFontSize(10);
 
-    pdf.text(
+pdf.text(
     textoFormateado,
-    22,
+    20,
     y + 18,
     {
-        maxWidth: 160
+        maxWidth: 170
     }
 );
 
@@ -3833,14 +4064,250 @@ yFinal = dibujarBloqueFinal(
 );
 
 
+// =========================
 // X. RECOMENDACIONES
+// =========================
 
-yFinal = dibujarBloqueFinal(
-    "X. RECOMENDACIONES",
-    recomendaciones,
-    yFinal
+const recomendacionesTexto =
+    recomendaciones || "";
+
+
+// =========================
+// SEPARAR CADA PUNTO
+// =========================
+
+const puntosRecomendaciones =
+    recomendacionesTexto
+        .split(/\n\s*\n/)
+        .map(punto => punto.trim())
+        .filter(punto => punto !== "");
+
+
+// =========================
+// FUNCIÓN PARA DIBUJAR X
+// =========================
+
+function dibujarRecomendaciones(
+    puntos,
+    yInicio
+){
+
+    const texto =
+        puntos
+            .map(punto =>
+                "• " +
+                punto.replace(/^•\s*/, "")
+            )
+            .join("\n\n");
+
+
+    const lineas =
+        pdf.splitTextToSize(
+            texto,
+            160
+        );
+
+
+    const altura =
+        Math.max(
+            75,
+            (lineas.length * 5) + 25
+        );
+
+
+    // =========================
+    // ENCABEZADO
+    // =========================
+
+pdf.setFillColor(
+    68,
+    84,
+    106
+);
+    pdf.rect(
+        15,
+        yInicio,
+        180,
+        10,
+        "F"
+    );
+
+    pdf.line(
+        15,
+        yInicio + 10,
+        195,
+        yInicio + 10
+    );
+
+
+    pdf.setFont(
+        "times",
+        "bold"
+    );
+
+pdf.setFontSize(11);
+
+pdf.setTextColor(
+    255,
+    255,
+    255
 );
 
+pdf.text(
+    "X. RECOMENDACIONES",
+    20,
+    yInicio + 7
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+
+    // =========================
+    // TEXTO
+    // =========================
+
+    pdf.setFont(
+        "times",
+        "normal"
+    );
+
+pdf.setFontSize(9);
+
+pdf.text(
+    lineas,
+    20,
+    yInicio + 18
+);
+
+    // =========================
+    // BORDE
+    // =========================
+
+    pdf.rect(
+        15,
+        yInicio,
+        180,
+        altura
+    );
+
+
+    return yInicio + altura;
+}
+
+
+// =========================
+// ESPACIO DISPONIBLE
+// =========================
+
+const limitePagina = 282;
+
+
+// =========================
+// PÁGINAS DE RECOMENDACIONES
+// =========================
+
+let puntosPagina = [];
+
+let yRecomendaciones =
+    yFinal;
+
+for(
+    let i = 0;
+    i < puntosRecomendaciones.length;
+    i++
+){
+
+    const puntoActual =
+        puntosRecomendaciones[i];
+
+
+    const textoPrueba =
+        puntosPagina.length > 0
+            ? puntosPagina
+                .map(punto =>
+                    "• " +
+                    punto.replace(/^•\s*/, "")
+                )
+                .join("\n\n")
+                +
+                "\n\n• " +
+                puntoActual.replace(/^•\s*/, "")
+            : "• " +
+                puntoActual.replace(/^•\s*/, "");
+
+
+    const lineasPrueba =
+        pdf.splitTextToSize(
+            textoPrueba,
+            160
+        );
+
+
+    const alturaPrueba =
+        Math.max(
+            75,
+            (lineasPrueba.length * 5) + 25
+        );
+
+
+    // =========================
+    // ¿CABE EL PUNTO COMPLETO?
+    // =========================
+
+    if(
+        puntosPagina.length > 0 &&
+        yRecomendaciones +
+        alturaPrueba >
+        limitePagina
+    ){
+
+        // =========================
+        // DIBUJAR PÁGINA ACTUAL
+        // =========================
+
+        dibujarRecomendaciones(
+            puntosPagina,
+            yRecomendaciones
+        );
+
+
+        // =========================
+        // NUEVA PÁGINA
+        // =========================
+
+        pdf.addPage();
+
+        yRecomendaciones = 15;
+
+        puntosPagina = [];
+
+    }
+
+
+    puntosPagina.push(
+        puntoActual
+    );
+
+}
+
+
+// =========================
+// DIBUJAR ÚLTIMA PÁGINA
+// =========================
+
+if(
+    puntosPagina.length > 0
+){
+
+    dibujarRecomendaciones(
+        puntosPagina,
+        yRecomendaciones
+    );
+
+}
 const estadoSeleccionado =
 equipoActual.querySelector(
 'input[type="radio"]:checked'
