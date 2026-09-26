@@ -1,6 +1,9 @@
 let contador =
-localStorage.getItem(
-    "contadorMantenimientoUPS"
+parseInt(
+    localStorage.getItem(
+        "contadorMantenimientoUPS"
+    ),
+    10
 );
 
 if(!contador){
