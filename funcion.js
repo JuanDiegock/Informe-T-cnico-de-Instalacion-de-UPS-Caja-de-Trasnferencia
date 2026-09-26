@@ -3810,18 +3810,55 @@ for(let i = 0; i < puntosFotos.length; i++){
     pdf.addPage();
 
 
-    pdf.setFont(
-        "times",
-        "bold"
-    );
+// =========================
+// CUADRO VII. REGISTRO VISUAL
+// =========================
 
-    pdf.setFontSize(11);
+pdf.setFillColor(
+    68,
+    84,
+    106
+);
 
-    pdf.text(
-    "VII. REGISTRO VISUAL",
+pdf.rect(
+    20,
     15,
+    170,
+    15,
+    "F"
+);
+
+pdf.rect(
+    20,
+    15,
+    170,
+    15
+);
+
+pdf.setFont(
+    "times",
+    "bold"
+);
+
+pdf.setFontSize(11);
+
+pdf.setTextColor(
+    255,
+    255,
+    255
+);
+
+pdf.text(
+    "VII. REGISTRO VISUAL",
+    25,
     25
-    );
+);
+
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
 
 
     // =========================
@@ -3896,7 +3933,7 @@ pdf.addImage(
     fotosPunto[0],
     "JPEG",
     35,
-    50,
+    55,
     140,
     91
 );
@@ -3913,7 +3950,7 @@ pdf.addImage(
     fotosPunto[1],
     "JPEG",
     35,
-    148,
+    153,
     140,
     91
 );
@@ -3932,7 +3969,7 @@ pdf.setFillColor(
 
 pdf.rect(
     20,
-    30,
+    35,
     170,
     15,
     "F"
@@ -3940,7 +3977,7 @@ pdf.rect(
 
 pdf.rect(
     20,
-    30,
+    35,
     170,
     15
 );
@@ -3951,24 +3988,25 @@ pdf.setFont(
     "bold"
 );
 
+let tituloPDF = titulo.replace(
+    /^\d+\.\s*/,
+    ""
+);
+
 pdf.setFontSize(10);
 
 pdf.setTextColor(
     255,
-    255,
-    255
+    192,
+    0
 );
 
 pdf.text(
-    titulo.replace(
-        /^\d+\.\s*/,
-        ""
-    ),
+    tituloPDF,
     105,
-    39,
+    44,
     {
-        align:"center",
-        maxWidth:160
+        align:"center"
     }
 );
 
