@@ -578,58 +578,95 @@ En el presente informe se detalla el servicio de instalación de un sistema de a
                 </h2>
 
 
-                <div class="checklist-actividades">
+<div class="checklist-item">
 
-                    <div class="checklist-item">
+    <input
+        type="checkbox"
+        id="epp${numero}_1">
 
-                        <input
-                            type="checkbox"
-                            id="epp${numero}_1">
+    <label for="epp${numero}_1">
+        Guantes de badana (se requiere comprar los guantes para cada trabajador)
+    </label>
 
-                        <label for="epp${numero}_1">
-                            Casco de seguridad
-                        </label>
-
-                    </div>
+</div>
 
 
-                    <div class="checklist-item">
+<div class="checklist-item">
 
-                        <input
-                            type="checkbox"
-                            id="epp${numero}_2">
+    <input
+        type="checkbox"
+        id="epp${numero}_2">
 
-                        <label for="epp${numero}_2">
-                            Guantes de seguridad
-                        </label>
+    <label for="epp${numero}_2">
+        Casco
+    </label>
 
-                    </div>
-
-
-                    <div class="checklist-item">
-
-                        <input
-                            type="checkbox"
-                            id="epp${numero}_3">
-
-                        <label for="epp${numero}_3">
-                            Lentes de seguridad
-                        </label>
-
-                    </div>
+</div>
 
 
-                    <div class="checklist-item">
+<div class="checklist-item">
 
-                        <input
-                            type="checkbox"
-                            id="epp${numero}_4">
+    <input
+        type="checkbox"
+        id="epp${numero}_3">
 
-                        <label for="epp${numero}_4">
-                            Botas de seguridad
-                        </label>
+    <label for="epp${numero}_3">
+        Barbiquejo
+    </label>
 
-                    </div>
+</div>
+
+
+<div class="checklist-item">
+
+    <input
+        type="checkbox"
+        id="epp${numero}_4">
+
+    <label for="epp${numero}_4">
+        Botas de seguridad dielectricas
+    </label>
+
+</div>
+
+
+<div class="checklist-item">
+
+    <input
+        type="checkbox"
+        id="epp${numero}_5">
+
+    <label for="epp${numero}_5">
+        Lentes de seguridad
+    </label>
+
+</div>
+
+
+<div class="checklist-item">
+
+    <input
+        type="checkbox"
+        id="epp${numero}_6">
+
+    <label for="epp${numero}_6">
+        Careta de seguridad
+    </label>
+
+</div>
+
+
+<div class="checklist-item">
+
+    <input
+        type="checkbox"
+        id="epp${numero}_7">
+
+    <label for="epp${numero}_7">
+        Tapones auditivos tipo diadema
+    </label>
+
+</div>
 
                 </div>
 
@@ -2358,9 +2395,10 @@ equipoActual.querySelectorAll(
         epps.push("• " + texto);
     }
 });
+
 const tablasEquipo =
 equipoActual.querySelectorAll(
-    ".inspeccion-box .tabla-info"
+    ".tabla-info"
 );
 
 const datosUPSAntiguo =
@@ -4372,5 +4410,4 @@ localStorage.setItem(
 actualizarCodigo();
 
     }
-
 
