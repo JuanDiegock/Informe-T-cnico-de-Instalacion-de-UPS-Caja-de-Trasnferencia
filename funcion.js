@@ -3932,11 +3932,12 @@ if(fotosPunto[0]){
 pdf.addImage(
     fotosPunto[0],
     "JPEG",
-    35,
+    50.58,
     55,
-    140,
+    108.84,
     91
 );
+
 }
 
 
@@ -3949,9 +3950,9 @@ if(fotosPunto[1]){
 pdf.addImage(
     fotosPunto[1],
     "JPEG",
-    35,
+    50.58,
     153,
-    140,
+    108.84,
     91
 );
 
@@ -3962,9 +3963,9 @@ pdf.addImage(
 // =========================
 
 pdf.setFillColor(
-    68,
-    84,
-    106
+    255,
+    192,
+    0
 );
 
 pdf.rect(
@@ -3982,7 +3983,6 @@ pdf.rect(
     15
 );
 
-
 pdf.setFont(
     "times",
     "bold"
@@ -3997,8 +3997,8 @@ pdf.setFontSize(10);
 
 pdf.setTextColor(
     255,
-    192,
-    0
+    255,
+    255
 );
 
 pdf.text(
