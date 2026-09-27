@@ -588,7 +588,7 @@ En el presente informe se detalla el servicio de instalación de un sistema de a
         id="epp${numero}_1">
 
     <label for="epp${numero}_1">
-        Guantes de badana (se requiere comprar los guantes para cada trabajador)
+        Guantes de badana 
     </label>
 
 </div>
