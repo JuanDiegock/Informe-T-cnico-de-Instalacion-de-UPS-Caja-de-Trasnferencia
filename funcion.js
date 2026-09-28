@@ -3519,6 +3519,34 @@ pdf.text(
     yPruebas + 20,
     { maxWidth: 160 }
 );
+
+pdf.setFont(
+    "times",
+    "bold"
+);
+
+pdf.setFontSize(10);
+
+pdf.setFont(
+    "times",
+    "normal"
+);
+
+pdf.setFontSize(10);
+
+pdf.setTextColor(0, 0, 0);
+
+pdf.text(
+    "- Pruebas de funcionamiento del UPS",
+    22,
+    yPruebas + 30
+);
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+
 const resultadosPruebas =
 equipoActual.querySelectorAll(
     ".tabla-pruebas select"
@@ -3664,12 +3692,37 @@ pdf.setTextColor(
 
 pdf.setFont(
     "times",
+    "bold"
+);
+
+pdf.setFontSize(10);
+
+pdf.setFont(
+    "times",
     "normal"
 );
 
 pdf.setFontSize(10);
 
+pdf.setTextColor(0, 0, 0);
 
+pdf.text(
+    "- Pruebas de funcionamiento de la caja de transferencia",
+    22,
+    yPruebasCaja + 30
+);
+pdf.setTextColor(
+    0,
+    0,
+    0
+);
+
+pdf.setFont(
+    "times",
+    "normal"
+);
+
+pdf.setFontSize(10);
 
 pdf.autoTable({
 
@@ -3963,9 +4016,9 @@ pdf.addImage(
 // =========================
 
 pdf.setFillColor(
-    255,
-    192,
-    0
+    165,
+    165,
+    165
 );
 
 pdf.rect(
