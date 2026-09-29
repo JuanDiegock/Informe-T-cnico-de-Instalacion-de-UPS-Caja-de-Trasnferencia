@@ -53,7 +53,9 @@ document
             "cantidadEquipos"
         ).value
     );
-console.log("Cantidad:", cantidad);
+
+    console.log("Cantidad:", cantidad);
+
     const contenedor =
     document.getElementById(
         "equiposContainer"
@@ -62,11 +64,18 @@ console.log("Cantidad:", cantidad);
     contenedor.innerHTML = "";
 
     for(let i=1;i<=cantidad;i++){
+
         console.log("Creando equipo", i);
+
         contenedor.innerHTML +=
         crearDatosGenerales(i);
-
     }
+
+    configurarClientes();
+    configurarFechas();
+    generarReporteFotografico();
+
+});
 function configurarClientes(){
 
     const equipos = document.querySelectorAll(".equipo-card");
@@ -364,51 +373,57 @@ function configurarClientes(){
     });
 
 }
-configurarClientes();
-generarReporteFotografico();
+function configurarFechas(){
 
-document.querySelectorAll(".equipo-card").forEach(equipo => {
+    document.querySelectorAll(".equipo-card").forEach(equipo => {
 
-    const fechaInput =
-        equipo.querySelector(".fecha-input");
+        const fechaInput =
+            equipo.querySelector(".fecha-input");
 
-    const fechaTexto =
-        equipo.querySelector(".fecha-trabajos");
+        const fechaTexto =
+            equipo.querySelector(".fecha-trabajos");
 
-    function actualizarFechaTrabajos(){
+        function actualizarFechaTrabajos(){
 
-        if(!fechaInput.value){
-            fechaTexto.textContent = "__________";
-            return;
+            if(!fechaInput.value){
+                fechaTexto.textContent = "__________";
+                return;
+            }
+
+            const partes =
+                fechaInput.value.split("-");
+
+            const año =
+                partes[0];
+
+            const mes =
+                parseInt(partes[1]) - 1;
+
+            const dia =
+                partes[2];
+
+            const fecha =
+                new Date(año, mes, dia);
+
+            const nombreMes =
+                fecha.toLocaleString("es-PE", {
+                    month: "long"
+                });
+
+            fechaTexto.textContent =
+                `${dia} de ${nombreMes} de ${año}`;
         }
 
-        const partes = fechaInput.value.split("-");
+        fechaInput.addEventListener(
+            "change",
+            actualizarFechaTrabajos
+        );
 
-        const año = partes[0];
-        const mes = parseInt(partes[1]) - 1;
-        const dia = partes[2];
+        actualizarFechaTrabajos();
 
-        const fecha = new Date(año, mes, dia);
+    });
 
-        const nombreMes =
-            fecha.toLocaleString("es-PE", {
-                month: "long"
-            });
-
-        fechaTexto.textContent =
-            `${dia} de ${nombreMes} de ${año}`;
-    }
-
-    fechaInput.addEventListener(
-        "change",
-        actualizarFechaTrabajos
-    );
-
-    actualizarFechaTrabajos();
-
-});
-});
-
+}
 function crearDatosGenerales(numero){
 
     return `
@@ -4350,4 +4365,3 @@ localStorage.setItem(
 actualizarCodigo();
 
     }
-
