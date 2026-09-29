@@ -1623,12 +1623,14 @@ La intervención fue realizada considerando las condiciones existentes de la ins
                 VIII. RESULTADOS DE LA INSTALACIÓN
             </h2>
 
-            <div class="campo-conclusiones">
+<div class="campo-conclusiones">
 
-          <textarea
-    rows="8"
->Finalizada la instalación, el nuevo sistema UPS y caja de transferencia quedaron operando de manera correcta. Se verificó el correcto funcionamiento de los circuitos de entrada y salida, así como la ausencia de alarmas o eventos de falla durante las pruebas operativas. Los equipo quedó en condiciones adecuadas para su operación continua.</textarea>
-            </div>
+    <textarea
+        rows="4"
+        style="padding: 8px 10px; vertical-align: top;"
+>Finalizada la instalación, el nuevo sistema UPS y caja de transferencia quedaron operando de manera correcta. Se verificó el correcto funcionamiento de los circuitos de entrada y salida, así como la ausencia de alarmas o eventos de falla durante las pruebas operativas. El equipo quedó en condiciones adecuadas para su operación continua.</textarea>
+
+</div>
 
 <!-- =========================
      IX. OBSERVACIÓN
@@ -1640,7 +1642,9 @@ La intervención fue realizada considerando las condiciones existentes de la ins
 
 <div class="campo-conclusiones">
 
-    <textarea rows="8"
+    <textarea
+        rows="4"
+        style="padding: 8px 10px; vertical-align: top;"
         placeholder="Ingrese las observaciones correspondientes al servicio."></textarea>
 
 </div>
@@ -2139,27 +2143,12 @@ pdf.setFont(
 pdf.setFontSize(14);
 
 pdf.text(
-    "INFORME TÉCNICO DE MANTENIMIENTO UPS",
-    100,
-    24,
+    "INFORME TÉCNICO N° " + String(contador + indice).padStart(3,"0"),
+    105,
+    34,
     { align:"center" }
 );
 
-pdf.setFontSize(10);
-
-pdf.text(
-    "N° " + String(contador + indice).padStart(3,"0"),
-    190,
-    22,
-    { align:"right" }
-);
-
-pdf.text(
-    "EQUIPO",
-    190,
-    31,
-    { align:"right" }
-);
 
 pdf.line(
     10,
@@ -2297,19 +2286,16 @@ let y =
 pdf.lastAutoTable.finalY + 8;
 
 const textoAlcance =
-pdf.splitTextToSize(
-    alcance,
-    165
-);
+    pdf.splitTextToSize(
+        alcance,
+        165
+    );
 
 const alturaTexto =
-textoAlcance.length * 5;
-
-let yTabla =
-y + alturaTexto + 5;
+    textoAlcance.length * 5;
 
 const alturaCaja =
-    alturaTexto + 25;
+    alturaTexto + 10;
 
 pdf.rect(
     15,
@@ -2539,7 +2525,7 @@ if (epps.length > 0) {
 // =========================
 
 let yEquipos =
-    yInspeccion + alturaEpps + 10;
+    yInspeccion + alturaEpps + 20;
 
 
 function tablaEquipoPDF(
@@ -2628,8 +2614,9 @@ tablaEquipoPDF(
 // SEGUNDA PARTE DEL II
 // =========================
 
-yEquipos =
-    pdf.lastAutoTable.finalY + 8;
+pdf.addPage();
+
+yEquipos = 25;
 
 
 // CAJA DE TRANSFERENCIA ANTIGUA
@@ -2655,10 +2642,10 @@ tablaEquipoPDF(
 // =========================
 
 let yAntecedentes =
-    pdf.lastAutoTable.finalY + 15;
+    pdf.lastAutoTable.finalY + 25;
 
 const alturaAntecedentes =
-    (textoAntecedentes.length * 6) + 25;
+    (textoAntecedentes.length * 5) + 10;
 
 if (
     yAntecedentes + alturaAntecedentes > 275
@@ -2666,7 +2653,7 @@ if (
 
     pdf.addPage();
 
-    yAntecedentes = 15;
+    yAntecedentes = 25;
 
 }
 
@@ -2745,7 +2732,7 @@ const bloqueTrabajos =
 
 pdf.addPage();
 
-let yActividades = 15;
+let yActividades = 25;
 
 const xTexto = 22;
 const anchoTexto = 160;
@@ -2949,11 +2936,11 @@ for(let elemento of elementosTrabajos){
 // =========================
 
 const alturaFinal =
-    yActividades - 15;
+    yActividades - 25;
 
 pdf.rect(
     15,
-    15,
+    25,
     180,
     alturaFinal
 );
@@ -2965,7 +2952,7 @@ pdf.rect(
 
 pdf.addPage();
 
-let yMediciones = 15;
+let yMediciones = 25;
 
 
 pdf.setFillColor(
@@ -3041,7 +3028,7 @@ pdf.setFontSize(10);
 pdf.text(
     "Para validar el desempeño de los equipos y confirmar que los parámetros operan dentro de los valores establecidos, se registraron las mediciones eléctricas correspondientes al UPS y la caja de transferencia.",
     22,
-    yMediciones + 20,
+    yMediciones + 25,
     { maxWidth: 160 }
 );
 
@@ -3187,16 +3174,6 @@ body:[
 
 });
 
-const finMediciones =
-pdf.lastAutoTable.finalY + 10;
-
-pdf.rect(
-    15,
-    yMediciones,
-    180,
-    finMediciones - yMediciones
-);
-
 
 // =========================
 // MEDICIONES CAJA DE TRANSFERENCIA
@@ -3205,58 +3182,7 @@ pdf.rect(
 let yMedicionesCaja =
     pdf.lastAutoTable.finalY + 15;
 
-pdf.rect(
-    15,
-    yMedicionesCaja,
-    180,
-    125
-);
 
-pdf.setFillColor(
-    68,
-    84,
-    106
-);
-
-pdf.rect(
-    15,
-    yMedicionesCaja,
-    180,
-    10,
-    "F"
-);
-
-pdf.line(
-    15,
-    yMedicionesCaja + 10,
-    195,
-    yMedicionesCaja + 10
-);
-
-pdf.setFont(
-    "times",
-    "bold"
-);
-
-pdf.setFontSize(11);
-
-pdf.setTextColor(
-    255,
-    255,
-    255
-);
-
-pdf.text(
-    "V. MEDICIONES ELÉCTRICAS",
-    20,
-    yMedicionesCaja + 7
-);
-
-pdf.setTextColor(
-    0,
-    0,
-    0
-);
 pdf.setFont(
     "times",
     "normal"
@@ -3267,9 +3193,8 @@ pdf.setFontSize(10);
 pdf.text(
     "• Mediciones eléctricas de la caja de transferencia:",
     28,
-    yMedicionesCaja + 25
+    yMedicionesCaja + 5
 );
-
 
 // =========================
 // DATOS CAJA DE TRANSFERENCIA
@@ -3352,7 +3277,7 @@ temperaturaCajaInputs[2]?.value || "";
 
 pdf.autoTable({
 
-    startY: yMedicionesCaja + 35,
+    startY: yMedicionesCaja + 15,
 
     margin:{
         left:30,
@@ -3423,14 +3348,8 @@ body:[
 
 pdf.addPage();
 
-let yPruebas = 15;
+let yPruebas = 25;
 
-pdf.rect(
-    15,
-    yPruebas,
-    180,
-    120
-);
 
 pdf.setFillColor(
     68,
@@ -3516,7 +3435,7 @@ pdf.setFontSize(10);
 pdf.text(
     "Con el fin de verificar la operatividad del sistema de respaldo, se ejecutaron las pruebas de funcionamiento correspondientes. Los resultados son los siguientes:",
     22,
-    yPruebas + 20,
+    yPruebas + 25,
     { maxWidth: 160 }
 );
 
@@ -3539,8 +3458,9 @@ pdf.setTextColor(0, 0, 0);
 pdf.text(
     "- Pruebas de funcionamiento del UPS",
     22,
-    yPruebas + 30
+    yPruebas + 40
 );
+
 pdf.setTextColor(
     0,
     0,
@@ -3553,7 +3473,7 @@ equipoActual.querySelectorAll(
 );
 pdf.autoTable({
 
-    startY: yPruebas + 35,
+    startY: yPruebas + 45,
 
     margin:{
         left:25,
@@ -3619,76 +3539,12 @@ pdf.autoTable({
 
 });
 
-const finPruebas =
-pdf.lastAutoTable.finalY + 10;
-
-pdf.rect(
-    15,
-    yPruebas,
-    180,
-    finPruebas - yPruebas
-);
-
-
 // =========================
 // PRUEBAS CAJA DE TRANSFERENCIA
 // =========================
 
 let yPruebasCaja =
     pdf.lastAutoTable.finalY + 15;
-
-pdf.rect(
-    15,
-    yPruebasCaja,
-    180,
-    120
-);
-
-pdf.setFillColor(
-    68,
-    84,
-    106
-);
-
-pdf.rect(
-    15,
-    yPruebasCaja,
-    180,
-    10,
-    "F"
-);
-
-pdf.line(
-    15,
-    yPruebasCaja + 10,
-    195,
-    yPruebasCaja + 10
-);
-
-pdf.setFont(
-    "times",
-    "bold"
-);
-
-pdf.setFontSize(11);
-
-pdf.setTextColor(
-    255,
-    255,
-    255
-);
-
-pdf.text(
-    "VI. PRUEBAS DE FUNCIONAMIENTO",
-    20,
-    yPruebasCaja + 7
-);
-
-pdf.setTextColor(
-    0,
-    0,
-    0
-);
 
 pdf.setFont(
     "times",
@@ -3709,7 +3565,7 @@ pdf.setTextColor(0, 0, 0);
 pdf.text(
     "- Pruebas de funcionamiento de la caja de transferencia",
     22,
-    yPruebasCaja + 30
+    yPruebasCaja + 10
 );
 pdf.setTextColor(
     0,
@@ -3726,7 +3582,7 @@ pdf.setFontSize(10);
 
 pdf.autoTable({
 
-    startY: yPruebasCaja + 35,
+    startY: yPruebasCaja + 15,
 
     margin:{
         left:25,
@@ -3788,15 +3644,7 @@ pdf.autoTable({
 
 });
 
-const finPruebasCaja =
-pdf.lastAutoTable.finalY + 10;
 
-pdf.rect(
-    15,
-    yPruebasCaja,
-    180,
-    finPruebasCaja - yPruebasCaja
-);
 function leerImagen(file){
 
     return new Promise((resolve)=>{
@@ -3855,63 +3703,67 @@ for(let i = 0; i < puntosFotos.length; i++){
     const punto =
         puntosFotos[i];
 
-
     // =========================
-    // NUEVA HOJA PARA CADA PUNTO
+    // NUEVA HOJA
     // =========================
 
     pdf.addPage();
 
 
-// =========================
-// CUADRO VII. REGISTRO VISUAL
-// =========================
+    // =========================
+    // VII. REGISTRO VISUAL
+    // NO INVADIR ENCABEZADO
+    // =========================
 
-pdf.setFillColor(
-    68,
-    84,
-    106
-);
+    if(i === 0){
 
-pdf.rect(
-    20,
-    15,
-    170,
-    15,
-    "F"
-);
+        pdf.setFillColor(
+            68,
+            84,
+            106
+        );
 
-pdf.rect(
-    20,
-    15,
-    170,
-    15
-);
+        pdf.rect(
+            20,
+            20,
+            170,
+            12,
+            "F"
+        );
 
-pdf.setFont(
-    "times",
-    "bold"
-);
+        pdf.rect(
+            20,
+            20,
+            170,
+            12
+        );
 
-pdf.setFontSize(11);
+        pdf.setFont(
+            "times",
+            "bold"
+        );
 
-pdf.setTextColor(
-    255,
-    255,
-    255
-);
+        pdf.setFontSize(11);
 
-pdf.text(
-    "VII. REGISTRO VISUAL",
-    25,
-    25
-);
+        pdf.setTextColor(
+            255,
+            255,
+            255
+        );
 
-pdf.setTextColor(
-    0,
-    0,
-    0
-);
+        pdf.text(
+            "VII. REGISTRO VISUAL",
+            25,
+            28
+        );
+
+        pdf.setTextColor(
+            0,
+            0,
+            0
+        );
+
+    }
 
 
     // =========================
@@ -3946,7 +3798,7 @@ pdf.setTextColor(
 
 
     // =========================
-    // OBTENER LAS 2 FOTOS
+    // OBTENER FOTOS
     // =========================
 
     const archivos =
@@ -3954,9 +3806,7 @@ pdf.setTextColor(
             'input[type="file"]'
         );
 
-
     const fotosPunto = [];
-
 
     for(let j = 0; j < archivos.length; j++){
 
@@ -3977,42 +3827,43 @@ pdf.setTextColor(
 
 
 // =========================
-// POSICIÓN FOTO 1
+// FOTO 1
 // =========================
 
 if(fotosPunto[0]){
 
-pdf.addImage(
-    fotosPunto[0],
-    "JPEG",
-    50.58,
-    55,
-    108.84,
-    91
-);
+    pdf.addImage(
+        fotosPunto[0],
+        "JPEG",
+        50.58,
+        i === 0 ? 46 : 41,
+        108.84,
+        91
+    );
 
 }
 
 
 // =========================
-// POSICIÓN FOTO 2
+// FOTO 2
 // =========================
 
 if(fotosPunto[1]){
 
-pdf.addImage(
-    fotosPunto[1],
-    "JPEG",
-    50.58,
-    153,
-    108.84,
-    91
-);
+    pdf.addImage(
+        fotosPunto[1],
+        "JPEG",
+        50.58,
+        i === 0 ? 145 : 140,
+        108.84,
+        91
+    );
 
 }
 
+
 // =========================
-// ENCABEZADO DEL PUNTO
+// TÍTULO DEL PUNTO
 // =========================
 
 pdf.setFillColor(
@@ -4023,17 +3874,17 @@ pdf.setFillColor(
 
 pdf.rect(
     20,
-    35,
+    i === 0 ? 34 : 29,
     170,
-    15,
+    10,
     "F"
 );
 
 pdf.rect(
     20,
-    35,
+    i === 0 ? 34 : 29,
     170,
-    15
+    10
 );
 
 pdf.setFont(
@@ -4041,10 +3892,11 @@ pdf.setFont(
     "bold"
 );
 
-let tituloPDF = titulo.replace(
-    /^\d+\.\s*/,
-    ""
-);
+let tituloPDF =
+    titulo.replace(
+        /^\d+\.\s*/,
+        ""
+    );
 
 pdf.setFontSize(10);
 
@@ -4057,7 +3909,7 @@ pdf.setTextColor(
 pdf.text(
     tituloPDF,
     105,
-    44,
+    i === 0 ? 41 : 36,
     {
         align:"center"
     }
@@ -4094,7 +3946,7 @@ equipoActual.querySelector(
 
 pdf.addPage();
 
-let yFinal = 15;
+let yFinal = 25;
 
 function dibujarBloqueFinal(titulo, texto, y){
 
@@ -4104,14 +3956,8 @@ function dibujarBloqueFinal(titulo, texto, y){
         170
     );
 
-  const altura =
-    Math.min(
-        120,
-        Math.max(
-            75,
-            (textoFormateado.length * 5) + 25
-        )
-    );
+const altura =
+    (textoFormateado.length * 5) + 24;
 pdf.setFillColor(
     68,
     84,
@@ -4167,7 +4013,7 @@ pdf.setFontSize(10);
 pdf.text(
     textoFormateado,
     20,
-    y + 18,
+    y + 17,
     {
         maxWidth: 170
     }
