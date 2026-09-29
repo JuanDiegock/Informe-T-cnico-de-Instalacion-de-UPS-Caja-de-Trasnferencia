@@ -2285,18 +2285,15 @@ equipoActual.querySelector(
 let y =
 pdf.lastAutoTable.finalY + 8;
 
-const textoAlcance =
-    pdf.splitTextToSize(
-        alcance,
-        165
-    );
-
+const textoAlcance = [
+    "En el presente informe se detalla el servicio de instalación de un sistema de alimentación ininterrumpida",
+    "(UPS) y una caja de transferencia."
+];
 const alturaTexto =
-    textoAlcance.length * 5;
+    textoAlcance.length * 6;
 
 const alturaCaja =
-    alturaTexto + 10;
-
+    28;
 pdf.rect(
     15,
     y,
@@ -2354,8 +2351,9 @@ pdf.setTextColor(
     0,
     0
 );
+
 pdf.setFont(
-    "times",
+    "helvetica",
     "normal"
 );
 
@@ -2363,9 +2361,10 @@ pdf.setFontSize(10);
 
 pdf.text(
     textoAlcance,
-    22,
-    y + 16
+    20,
+    y + 18
 );
+
 pdf.rect(
     15,
     y,
@@ -2407,7 +2406,7 @@ const datosCajaNueva =
 .map(fila => fila.querySelector("td:nth-child(2) input")?.value || "");
 
 let yInspeccion =
-    y + alturaCaja + 15;
+    y + alturaCaja + 5;
 
 const antecedentes =
 equipoActual.querySelector(
@@ -2417,18 +2416,14 @@ equipoActual.querySelector(
 const textoAntecedentes =
 pdf.splitTextToSize(
     antecedentes,
-    160
+    170
 );
-
 // =========================
 // II. EPPS Y EQUIPO
 // =========================
 
 const alturaEpps =
-    Math.max(
-        35,
-        25 + (epps.length * 6)
-    );
+    20 + (epps.length * 5);
 
 pdf.rect(
     15,
@@ -2493,7 +2488,7 @@ pdf.setFont(
 pdf.setFontSize(10);
 
 let yEpps =
-    yInspeccion + 20;
+    yInspeccion + 16;
 
 if (epps.length > 0) {
 
@@ -2505,7 +2500,7 @@ if (epps.length > 0) {
             yEpps
         );
 
-        yEpps += 6;
+        yEpps += 5;
 
     });
 
@@ -2525,7 +2520,7 @@ if (epps.length > 0) {
 // =========================
 
 let yEquipos =
-    yInspeccion + alturaEpps + 20;
+    yInspeccion + alturaEpps + 4;
 
 
 function tablaEquipoPDF(
@@ -2645,7 +2640,7 @@ let yAntecedentes =
     pdf.lastAutoTable.finalY + 25;
 
 const alturaAntecedentes =
-    (textoAntecedentes.length * 5) + 10;
+    (textoAntecedentes.length * 5) + 16;
 
 if (
     yAntecedentes + alturaAntecedentes > 275
@@ -2711,7 +2706,7 @@ pdf.setTextColor(
 );
 
 pdf.setFont(
-    "times",
+    "helvetica",
     "normal"
 );
 
@@ -2719,8 +2714,8 @@ pdf.setFontSize(10);
 
 pdf.text(
     textoAntecedentes,
-    22,
-    yAntecedentes + 20
+    20,
+    yAntecedentes + 18
 );
 
 // =========================
@@ -3951,18 +3946,31 @@ let yFinal = 25;
 function dibujarBloqueFinal(titulo, texto, y){
 
     const textoFormateado =
-    pdf.splitTextToSize(
-        texto || "",
-        170
-    );
+        pdf.splitTextToSize(
+            texto || "",
+            170
+        );
 
-const altura =
-    (textoFormateado.length * 5) + 24;
-pdf.setFillColor(
-    68,
-    84,
-    106
-);
+    const altura =
+        (textoFormateado.length * 5) + 20;
+
+    // Si el bloque no entra en la página,
+    // empieza en una página nueva
+    if (
+        y + altura > 282
+    ) {
+
+        pdf.addPage();
+
+        y = 20;
+
+    }
+
+    pdf.setFillColor(
+        68,
+        84,
+        106
+    );
 
     pdf.rect(
         15,
@@ -3984,40 +3992,38 @@ pdf.setFillColor(
         "bold"
     );
 
-  pdf.setFontSize(11);
+    pdf.setFontSize(11);
 
-pdf.setTextColor(
-    255,
-    255,
-    255
-);
+    pdf.setTextColor(
+        255,
+        255,
+        255
+    );
 
-pdf.text(
-    titulo,
-    20,
-    y + 7
-);
+    pdf.text(
+        titulo,
+        20,
+        y + 7
+    );
 
-pdf.setTextColor(
-    0,
-    0,
-    0
-);
+    pdf.setTextColor(
+        0,
+        0,
+        0
+    );
+
     pdf.setFont(
-        "times",
+        "helvetica",
         "normal"
     );
 
-pdf.setFontSize(10);
+    pdf.setFontSize(10);
 
-pdf.text(
-    textoFormateado,
-    20,
-    y + 17,
-    {
-        maxWidth: 170
-    }
-);
+    pdf.text(
+        textoFormateado,
+        20,
+        y + 17
+    );
 
     pdf.rect(
         15,
@@ -4093,10 +4099,7 @@ function dibujarRecomendaciones(
 
 
     const altura =
-        Math.max(
-            75,
-            (lineas.length * 5) + 25
-        );
+    (lineas.length * 5) + 14;
 
 
     // =========================
@@ -4153,12 +4156,12 @@ pdf.setTextColor(
     // TEXTO
     // =========================
 
-    pdf.setFont(
-        "times",
-        "normal"
-    );
+pdf.setFont(
+    "helvetica",
+    "normal"
+);
 
-pdf.setFontSize(9);
+pdf.setFontSize(10);
 
 pdf.text(
     lineas,
@@ -4231,10 +4234,7 @@ for(
 
 
     const alturaPrueba =
-        Math.max(
-            75,
-            (lineasPrueba.length * 5) + 25
-        );
+    (lineasPrueba.length * 5) + 20;
 
 
     // =========================
