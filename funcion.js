@@ -2116,11 +2116,15 @@ pdf.addImage(
 
 }
 
-    for(let indice = 0; indice < equipos.length; indice++){
-        const codigoEquipo =
+for(let indice = 0; indice < equipos.length; indice++){
+
+    const pdf =
+        new jsPDF("p","mm","a4");
+
+    const codigoEquipo =
 `ITMU-${String(contador + indice).padStart(4,"0")}`;
 
-        const equipoActual = equipos[indice];
+    const equipoActual = equipos[indice];
 
 const cliente =
 equipoActual.querySelector(".cliente-select")?.selectedOptions[0].text || "";
@@ -2144,10 +2148,6 @@ equipoActual.querySelector(".servicio-input")?.value || "";
 
 const fecha =
 equipoActual.querySelector(".fecha-input")?.value || "";
-
-        const pdf =
-        new jsPDF("p","mm","a4");
-
 
 
 pdf.setFont(
@@ -4378,10 +4378,12 @@ for(let pagina = 1; pagina <= totalPaginas; pagina++){
 
 }
   
- pdf.save(
-    codigoEquipo + ".pdf"
-);
-    }
+    pdf.save(
+        codigoEquipo + ".pdf"
+    );
+
+}
+
 contador += equipos.length;
 
 localStorage.setItem(
