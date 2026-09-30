@@ -3842,14 +3842,14 @@ for(let i = 0; i < puntosFotos.length; i++){
 
 if(fotosPunto[0]){
 
-    pdf.addImage(
-        fotosPunto[0],
-        "JPEG",
-        50.58,
-        i === 0 ? 46 : 41,
-        108.84,
-        91
-    );
+pdf.addImage(
+    fotosPunto[0],
+    "JPEG",
+    50.58,
+    i === 0 ? 51 : 46,
+    108.84,
+    91
+);
 
 }
 
@@ -3860,14 +3860,14 @@ if(fotosPunto[0]){
 
 if(fotosPunto[1]){
 
-    pdf.addImage(
-        fotosPunto[1],
-        "JPEG",
-        50.58,
-        i === 0 ? 145 : 140,
-        108.84,
-        91
-    );
+pdf.addImage(
+    fotosPunto[1],
+    "JPEG",
+    50.58,
+    i === 0 ? 150 : 145,
+    108.84,
+    91
+);
 
 }
 
@@ -3884,7 +3884,7 @@ pdf.setFillColor(
 
 pdf.rect(
     55,
-    i === 0 ? 34 : 29,  
+    i === 0 ? 34 : 24,
     100,
     10,
     "F"
@@ -3892,10 +3892,10 @@ pdf.rect(
 
 pdf.rect(
     55,
-    i === 0 ? 34 : 29,
+    i === 0 ? 34 : 24,
     100,
     10
-);
+);  
 
 pdf.setFont(
     "times",
@@ -3919,7 +3919,7 @@ pdf.setTextColor(
 pdf.text(
     tituloPDF,
     105,
-    i === 0 ? 41 : 36,
+    i === 0 ? 41 : 31,
     {
         align:"center"
     }
@@ -4097,35 +4097,34 @@ function dibujarRecomendaciones(
     yInicio
 ){
 
-    const texto =
-        puntos
-            .map(punto =>
-                "• " +
-                punto.replace(/^•\s*/, "")
-            )
-            .join("\n\n");
+    let alturaTexto = 0;
 
+    puntos.forEach(punto => {
 
     const lineas =
-        pdf.splitTextToSize(
-            texto,
-            160
-        );
+    pdf.splitTextToSize(
+    punto.replace(/^•\s*/, ""),
+    172
+    );
+        alturaTexto +=
+            (lineas.length * 5) + 5;
 
+    });
 
     const altura =
-    (lineas.length * 5) + 14;
+        alturaTexto + 18;
 
 
     // =========================
     // ENCABEZADO
     // =========================
 
-pdf.setFillColor(
-    68,
-    84,
-    106
-);
+    pdf.setFillColor(
+        68,
+        84,
+        106
+    );
+
     pdf.rect(
         15,
         yInicio,
@@ -4147,42 +4146,72 @@ pdf.setFillColor(
         "bold"
     );
 
-pdf.setFontSize(11);
+    pdf.setFontSize(11);
 
-pdf.setTextColor(
-    255,
-    255,
-    255
-);
+    pdf.setTextColor(
+        255,
+        255,
+        255
+    );
 
-pdf.text(
-    "X. RECOMENDACIONES",
-    20,
-    yInicio + 7
-);
+    pdf.text(
+        "X. RECOMENDACIONES",
+        20,
+        yInicio + 7
+    );
 
-pdf.setTextColor(
-    0,
-    0,
-    0
-);
 
     // =========================
     // TEXTO
     // =========================
 
-pdf.setFont(
-    "helvetica",
-    "normal"
-);
+    pdf.setTextColor(
+        0,
+        0,
+        0
+    );
 
-pdf.setFontSize(10);
+    pdf.setFont(
+        "helvetica",
+        "normal"
+    );
 
-pdf.text(
-    lineas,
-    20,
-    yInicio + 18
-);
+    pdf.setFontSize(10);
+
+
+    let yTexto =
+        yInicio + 18;
+
+
+    puntos.forEach(punto => {
+
+        const lineas =
+        pdf.splitTextToSize(
+        punto.replace(/^•\s*/, ""),
+        172
+    );
+
+
+        const textoPunto = [
+            "• " + lineas[0],
+            ...lineas
+                .slice(1)
+                .map(linea => "  " + linea)
+        ];
+
+
+        pdf.text(
+            textoPunto,
+            20,
+            yTexto
+        );
+
+
+        yTexto +=
+            (lineas.length * 5) + 5;
+
+    });
+
 
     // =========================
     // BORDE
@@ -4198,8 +4227,6 @@ pdf.text(
 
     return yInicio + altura;
 }
-
-
 // =========================
 // ESPACIO DISPONIBLE
 // =========================
@@ -4242,10 +4269,10 @@ for(
 
 
     const lineasPrueba =
-        pdf.splitTextToSize(
-            textoPrueba,
-            160
-        );
+    pdf.splitTextToSize(
+    textoPrueba,
+    172
+    );
 
 
     const alturaPrueba =
